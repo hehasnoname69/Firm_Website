@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asset Recovery – Justice Law Firm Client Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'client', redirect: '/auth/login.html' });
+      if (!me) return;
+      let data;
+      try { data = await Portal.api('/asset-recovery'); } catch (e) { Portal.toast(e.message, 'error'); return; }
+
+      renderShell({
+        activeKey: 'asset', title: 'Digital Asset Recovery', role: 'client',
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>Digital Asset Recovery</h2>
+              <div class="subtitle">Specialized legal support for victims of online scams and digital asset theft</div>
+            </div>
+            <a href="/portal/asset-recovery-intake.html" class="btn btn-gold"><i class="fas fa-plus"></i> File New Recovery Case</a>
+          </div>
+
+          <div class="alert">
+            <i class="fas fa-shield-halved"></i>
+            <strong>What we handle:</strong> Cryptocurrency scams, romance scams, investment fraud, phishing, ransomware, wallet theft, fake ICOs, and pig-butchering schemes. Our investigators combine blockchain forensics with legal action to pursue recovery.
+          </div>
+
+          ${data.cases.length === 0 ? `
+            <div class="card"><div class="empty">
+              <i class="fas fa-shield-halved"></i>
+              <h4>No recovery cases on file</h4>
+              <p>Already reported to the police? Even better. The sooner you engage us, the better the chances of recovery.</p>
+              <a href="/portal/asset-recovery-intake.html" class="btn btn-gold">File an Asset Recovery Case</a>
+            </div></div>
+          ` : `
+            <div class="card">
+              <div class="table-wrap">
+                <table class="data">
+                  <thead><tr>
+                    <th>Case #</th><th>Incident</th><th>Amount Lost</th><th>Investigator</th>
+                    <th>Status</th><th>Submitted</th><th>Recovered</th><th></th>
+                  </tr></thead>
+                  <tbody>
+                    ${data.cases.map(c => `
+                      <tr>
+                        <td><strong>${c.case_number}</strong></td>
+                        <td>${(c.incident_type || '').replace(/_/g,' ')}<br><span class="muted" style="font-size:11px">${c.scam_platform || ''}</span></td>
+                        <td>${Portal.fmtMoney(c.amount_lost, c.currency)}</td>
+                        <td>${c.inv_first ? `${c.inv_first} ${c.inv_last}` : '<span class="muted">Unassigned</span>'}</td>
+                        <td>${Portal.statusBadge(c.intake_status)}</td>
+                        <td class="muted">${Portal.fmtDate(c.created_at)}</td>
+                        <td>${c.recovery_amount ? Portal.fmtMoney(c.recovery_amount, c.currency) : '—'}</td>
+                        <td><a href="/portal/asset-recovery.html?id=${c.id}" class="btn btn-sm">View</a></td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `}
+        `
+      });
+    })();
+  </script>
+</body>
+</html>

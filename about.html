@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us – Justice Law Firm</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="about.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body class="about-page">
+
+  <canvas id="particles"></canvas>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><i class="fas fa-balance-scale"></i></div>
+        <div class="logo-text">
+          <span class="logo-title">JUSTICE</span>
+          <span class="logo-sub">LAW FIRM</span>
+        </div>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html"            class="nav-link">Home</a>
+        <div class="nav-dropdown">
+          <a href="index.html#practice" class="nav-link nav-link--drop">Practice Areas <i class="fas fa-chevron-down nav-chevron"></i></a>
+          <div class="nav-drop-panel">
+            <div class="ndp-list">
+              <a href="index.html#practice" class="ndp-item"><i class="fas fa-users"></i><span>Family Law</span></a>
+              <a href="index.html#practice" class="ndp-item"><i class="fas fa-hospital-user"></i><span>Personal Injury</span></a>
+              <a href="index.html#practice" class="ndp-item"><i class="fas fa-home"></i><span>Real Estate Law</span></a>
+              <a href="index.html#practice" class="ndp-item"><i class="fas fa-passport"></i><span>Immigration Law</span></a>
+              <a href="index.html#practice" class="ndp-item"><i class="fas fa-lightbulb"></i><span>Intellectual Property</span></a>
+              <a href="index.html#practice" class="ndp-item"><i class="fas fa-balance-scale-right"></i><span>Civil Law</span></a>
+            </div>
+          </div>
+        </div>
+        <a href="about.html#our-team"       class="nav-link">Attorneys</a>
+        <a href="index.html#results"        class="nav-link">Case Results</a>
+        <a href="index.html#blog"           class="nav-link">Blog</a>
+        <a href="about.html"                class="nav-link active">About Us</a>
+        <a href="index.html#contact-section" class="nav-link">Contact Us</a>
+      </nav>
+      <div class="nav-cta-group">
+
+        <!-- ── Phone ghost button ── -->
+        <a href="index.html#contact-section" class="btn-nav-ghost">
+          <span class="btn-ghost-icon-wrap">
+            <span class="btn-ghost-dot"></span>
+            <i class="fas fa-phone-alt"></i>
+          </span>
+          <span class="btn-ghost-body">
+            <span class="btn-ghost-label">CALL US NOW</span>
+            <span class="btn-ghost-number">(212) 555-7890</span>
+          </span>
+          <span class="btn-ghost-border-t"></span>
+          <span class="btn-ghost-border-r"></span>
+          <span class="btn-ghost-border-b"></span>
+          <span class="btn-ghost-border-l"></span>
+        </a>
+
+        <!-- ── Free Consultation CTA ── -->
+        <a href="index.html#consultation" class="btn-nav-cta">
+          <span class="btn-cta-fill"></span>
+          <span class="btn-cta-corner"></span>
+          <span class="btn-cta-inner">
+            <span class="btn-cta-icon"><i class="fas fa-balance-scale"></i></span>
+            <span class="btn-cta-text">
+              <span class="btn-cta-top">FREE</span>
+              <span class="btn-cta-bottom">CONSULTATION</span>
+            </span>
+            <span class="btn-cta-chevron"><i class="fas fa-chevron-right"></i></span>
+          </span>
+        </a>
+
+      </div>
+      <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html" class="mm-link"><i class="fas fa-home"></i><span>Home</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="index.html#practice" class="mm-link"><i class="fas fa-briefcase"></i><span>Practice Areas</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="about.html#our-team" class="mm-link"><i class="fas fa-user-tie"></i><span>Attorneys</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="index.html#results" class="mm-link"><i class="fas fa-trophy"></i><span>Case Results</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="index.html#blog" class="mm-link"><i class="fas fa-newspaper"></i><span>Blog</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="about.html" class="mm-link"><i class="fas fa-info-circle"></i><span>About Us</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="index.html#contact-section" class="mm-link"><i class="fas fa-envelope"></i><span>Contact Us</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="index.html#consultation" class="btn-nav-cta mobile-cta">
+        <i class="fas fa-calendar-check"></i> Free Consultation
+      </a>
+    </div>
+  </header>
+
+  <!-- ===== PAGE HERO ===== -->
+  <section class="about-hero">
+    <div class="about-hero-overlay"></div>
+    <div class="about-hero-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+    </div>
+    <div class="about-hero-content">
+      <div class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-angle-right"></i> <span>About Us</span></div>
+      <p class="section-eyebrow">WHO WE ARE</p>
+      <h1 class="about-hero-title">Championing Justice<br /><span class="gold">Since 1998</span></h1>
+      <p class="about-hero-sub">A legacy of excellence, integrity, and results — built one client at a time.</p>
+    </div>
+    <div class="about-hero-stats">
+      <div class="ahs-item"><span class="ahs-num" data-target="27">0</span><span class="ahs-plus">+</span><p>Years of Practice</p></div>
+      <div class="ahs-div"></div>
+      <div class="ahs-item"><span class="ahs-num" data-target="4800">0</span><span class="ahs-plus">+</span><p>Clients Served</p></div>
+      <div class="ahs-div"></div>
+      <div class="ahs-item"><span class="ahs-num" data-target="6">0</span><span class="ahs-plus"></span><p>Practice Areas</p></div>
+      <div class="ahs-div"></div>
+      <div class="ahs-item"><span class="ahs-num" data-target="98">0</span><span class="ahs-plus">%</span><p>Success Rate</p></div>
+    </div>
+  </section>
+
+  <!-- ===== FIRM STORY ===== -->
+  <section class="firm-story" id="our-story">
+    <div class="firm-story-inner">
+      <div class="firm-story-img-col">
+        <div class="story-img-frame">
+          <img src="https://images.unsplash.com/photo-1479142506502-19b3a3b7ff33?w=700&q=80" alt="Justice Law Firm Office" />
+          <div class="story-img-badge">
+            <i class="fas fa-award"></i>
+            <span>AV Preeminent™</span>
+            <small>Martindale-Hubbell Rated</small>
+          </div>
+        </div>
+        <div class="story-accent-box">
+          <i class="fas fa-quote-left"></i>
+          <p>"Justice is not a privilege — it is a right. We exist to make it accessible."</p>
+          <span>— Founding Partners, 1998</span>
+        </div>
+      </div>
+      <div class="firm-story-text-col">
+        <p class="section-eyebrow">OUR STORY</p>
+        <h2 class="section-title">Built on Principle.<br />Driven by Results.</h2>
+        <div class="story-divider"></div>
+        <p class="story-lead">Justice Law Firm was founded in 1998 by a group of attorneys who believed that every person — regardless of background — deserves fierce, skilled legal representation.</p>
+        <p class="story-body">What began as a two-attorney practice on the Lower East Side of Manhattan has grown into one of New York's most respected multi-discipline law firms, with a team of six dedicated specialists covering every major area of civil and personal law.</p>
+        <p class="story-body">Over the past 27 years we have recovered more than <strong>$50 million</strong> for our clients, navigated thousands of complex legal matters, and built a culture defined by transparency, empathy, and relentless advocacy.</p>
+        <div class="story-pillars">
+          <div class="pillar">
+            <div class="pillar-icon"><i class="fas fa-shield-alt"></i></div>
+            <div>
+              <strong>Unwavering Integrity</strong>
+              <span>Honest counsel, always</span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon"><i class="fas fa-fire"></i></div>
+            <div>
+              <strong>Fierce Advocacy</strong>
+              <span>We fight every angle</span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon"><i class="fas fa-heart"></i></div>
+            <div>
+              <strong>Client Compassion</strong>
+              <span>People over paperwork</span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon"><i class="fas fa-trophy"></i></div>
+            <div>
+              <strong>Proven Results</strong>
+              <span>Track record that speaks</span>
+            </div>
+          </div>
+        </div>
+        <a href="index.html#consultation" class="btn-gold"><i class="fas fa-calendar-check"></i> Schedule a Free Consultation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRACTICE AREAS OVERVIEW ===== -->
+  <section class="about-practice" id="practice-areas">
+    <div class="about-section-wrap">
+      <div class="ab-section-head">
+        <p class="section-eyebrow">WHAT WE DO</p>
+        <h2 class="section-title">Our Six Practice Areas</h2>
+        <div class="section-divider"><span class="divider-icon">⚖</span></div>
+        <p class="ab-sub">Every area is covered by a dedicated specialist — someone whose entire career is focused on that domain.</p>
+      </div>
+      <div class="ab-practice-list">
+
+        <div class="ab-practice-item" id="family-law">
+          <div class="ab-practice-icon"><i class="fas fa-users"></i></div>
+          <div class="ab-practice-body">
+            <div class="ab-practice-header">
+              <h3>Family Law</h3>
+              <span class="ab-lawyer-tag"><i class="fas fa-user-tie"></i> Robert Anderson</span>
+            </div>
+            <p>Family law cases are among the most emotionally charged legal matters a person will ever face. Our family law team guides clients through divorce proceedings, child custody and support arrangements, adoption, domestic violence protective orders, and post-decree modifications. We combine legal expertise with genuine compassion, always prioritising the wellbeing of your family — especially your children.</p>
+            <ul class="ab-practice-bullets">
+              <li><i class="fas fa-check"></i> Divorce &amp; Legal Separation</li>
+              <li><i class="fas fa-check"></i> Child Custody &amp; Visitation</li>
+              <li><i class="fas fa-check"></i> Child &amp; Spousal Support</li>
+              <li><i class="fas fa-check"></i> Adoption &amp; Guardianship</li>
+              <li><i class="fas fa-check"></i> Domestic Violence Orders</li>
+              <li><i class="fas fa-check"></i> Prenuptial Agreements</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ab-practice-item" id="personal-injury">
+          <div class="ab-practice-icon"><i class="fas fa-hospital-user"></i></div>
+          <div class="ab-practice-body">
+            <div class="ab-practice-header">
+              <h3>Personal Injury</h3>
+              <span class="ab-lawyer-tag"><i class="fas fa-user-tie"></i> Michael Thompson</span>
+            </div>
+            <p>When you are injured because of someone else's negligence, you deserve maximum compensation — not just for your medical bills, but for your pain, lost wages, and diminished quality of life. Michael Thompson has recovered over $18 million for accident victims and operates on a strict contingency basis: no fees unless we win.</p>
+            <ul class="ab-practice-bullets">
+              <li><i class="fas fa-check"></i> Car &amp; Truck Accidents</li>
+              <li><i class="fas fa-check"></i> Slip &amp; Fall Injuries</li>
+              <li><i class="fas fa-check"></i> Medical Malpractice</li>
+              <li><i class="fas fa-check"></i> Wrongful Death</li>
+              <li><i class="fas fa-check"></i> Workplace Injuries</li>
+              <li><i class="fas fa-check"></i> Product Liability</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ab-practice-item" id="real-estate">
+          <div class="ab-practice-icon"><i class="fas fa-home"></i></div>
+          <div class="ab-practice-body">
+            <div class="ab-practice-header">
+              <h3>Real Estate Law</h3>
+              <span class="ab-lawyer-tag"><i class="fas fa-user-tie"></i> Sarah Williams</span>
+            </div>
+            <p>Real estate transactions carry significant financial and legal risk. Sarah Williams has handled over 900 residential and commercial property matters, ensuring every title is clean, every contract is fair, and every client is protected. From first-time buyers to commercial landlords, we are your trusted guide through New York's complex real estate landscape.</p>
+            <ul class="ab-practice-bullets">
+              <li><i class="fas fa-check"></i> Residential &amp; Commercial Purchases</li>
+              <li><i class="fas fa-check"></i> Title Searches &amp; Insurance</li>
+              <li><i class="fas fa-check"></i> Landlord–Tenant Disputes</li>
+              <li><i class="fas fa-check"></i> Foreclosure Defense</li>
+              <li><i class="fas fa-check"></i> Zoning &amp; Land Use</li>
+              <li><i class="fas fa-check"></i> Contract Review &amp; Negotiation</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ab-practice-item" id="immigration">
+          <div class="ab-practice-icon"><i class="fas fa-passport"></i></div>
+          <div class="ab-practice-body">
+            <div class="ab-practice-header">
+              <h3>Immigration Law</h3>
+              <span class="ab-lawyer-tag"><i class="fas fa-user-tie"></i> Jennifer Morgan</span>
+            </div>
+            <p>Navigating the U.S. immigration system is daunting — one wrong step can have life-altering consequences. Jennifer Morgan has helped over 1,200 clients from 40 countries secure visas, green cards, and citizenship. She is equally skilled in defending removal proceedings and representing asylum seekers in immigration court.</p>
+            <ul class="ab-practice-bullets">
+              <li><i class="fas fa-check"></i> Family-Based Green Cards</li>
+              <li><i class="fas fa-check"></i> Employment Visas (H-1B, L-1, O-1)</li>
+              <li><i class="fas fa-check"></i> Citizenship &amp; Naturalisation</li>
+              <li><i class="fas fa-check"></i> Asylum &amp; Refugee Status</li>
+              <li><i class="fas fa-check"></i> Deportation &amp; Removal Defense</li>
+              <li><i class="fas fa-check"></i> DACA &amp; Special Programs</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ab-practice-item" id="ip-law">
+          <div class="ab-practice-icon"><i class="fas fa-lightbulb"></i></div>
+          <div class="ab-practice-body">
+            <div class="ab-practice-header">
+              <h3>Intellectual Property Law</h3>
+              <span class="ab-lawyer-tag"><i class="fas fa-user-tie"></i> Daniel Park</span>
+            </div>
+            <p>Your ideas, inventions, and creative works are among your most valuable assets. Daniel Park — a former USPTO patent examiner — provides comprehensive IP protection strategies for individuals, startups, and corporations. With over 300 patents filed and numerous successful trademark and copyright registrations, Daniel is the advocate your intellectual property deserves.</p>
+            <ul class="ab-practice-bullets">
+              <li><i class="fas fa-check"></i> Patent Application &amp; Prosecution</li>
+              <li><i class="fas fa-check"></i> Trademark Registration &amp; Defense</li>
+              <li><i class="fas fa-check"></i> Copyright Registration &amp; Licensing</li>
+              <li><i class="fas fa-check"></i> Trade Secret Protection</li>
+              <li><i class="fas fa-check"></i> IP Litigation &amp; Enforcement</li>
+              <li><i class="fas fa-check"></i> Technology &amp; Licensing Agreements</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ab-practice-item" id="civil-law">
+          <div class="ab-practice-icon"><i class="fas fa-balance-scale-right"></i></div>
+          <div class="ab-practice-body">
+            <div class="ab-practice-header">
+              <h3>Civil Law</h3>
+              <span class="ab-lawyer-tag"><i class="fas fa-user-tie"></i> Amara Osei</span>
+            </div>
+            <p>Civil disputes can arise in every area of life — from broken contracts to civil rights violations. Amara Osei specialises in bringing and defending complex civil actions. She combines meticulous research with compelling courtroom advocacy, ensuring her clients' positions are heard and their rights are protected in every proceeding.</p>
+            <ul class="ab-practice-bullets">
+              <li><i class="fas fa-check"></i> Contract Disputes &amp; Breach of Contract</li>
+              <li><i class="fas fa-check"></i> Civil Rights Claims (§ 1983)</li>
+              <li><i class="fas fa-check"></i> Tort Claims &amp; Negligence</li>
+              <li><i class="fas fa-check"></i> Defamation &amp; Slander</li>
+              <li><i class="fas fa-check"></i> Employment Discrimination</li>
+              <li><i class="fas fa-check"></i> Class Action Representation</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TEAM ===== -->
+  <section class="about-team" id="our-team">
+    <div class="about-section-wrap">
+      <div class="ab-section-head">
+        <p class="section-eyebrow light">OUR PEOPLE</p>
+        <h2 class="section-title light">The Attorneys</h2>
+        <div class="section-divider light-divider"><span class="divider-icon gold-icon">⚖</span></div>
+        <p class="ab-sub light-sub">One specialist per practice area. No shared portfolios — your lawyer is 100% focused on your field of law.</p>
+      </div>
+      <div class="ab-team-grid">
+
+        <!-- Robert Anderson -->
+        <div class="ab-lawyer-card" id="robert-anderson">
+          <div class="ab-lawyer-img-wrap">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&q=80" alt="Robert Anderson" />
+            <div class="ab-lawyer-area-badge"><i class="fas fa-users"></i> Family Law</div>
+          </div>
+          <div class="ab-lawyer-body">
+            <div class="ab-lawyer-head">
+              <div>
+                <h3>Robert Anderson</h3>
+                <span class="ab-lawyer-title">Senior Partner &nbsp;·&nbsp; Family Law</span>
+              </div>
+              <div class="ab-lawyer-social">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="index.html#contact-section"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+            <p class="ab-lawyer-bio">Robert Anderson founded the family law practice at Justice Law Firm in 1998, pioneering a compassion-first approach to divorce and custody proceedings. A Fordham Law School graduate and current Chair of the New York Bar Association Family Law Section, Robert has successfully guided more than 800 families through their most difficult legal transitions.</p>
+            <div class="ab-lawyer-stats">
+              <div class="ab-lstat"><span>22</span><p>Years at Firm</p></div>
+              <div class="ab-lstat"><span>800+</span><p>Families Helped</p></div>
+              <div class="ab-lstat"><span>J.D.</span><p>Fordham Law</p></div>
+            </div>
+            <div class="ab-lawyer-credentials">
+              <span><i class="fas fa-certificate"></i> NY State Bar</span>
+              <span><i class="fas fa-award"></i> AV Preeminent™</span>
+              <span><i class="fas fa-star"></i> Super Lawyers® 2020–25</span>
+            </div>
+            <a href="index.html#contact-section" class="ab-contact-btn"><i class="fas fa-envelope"></i> Contact Robert</a>
+          </div>
+        </div>
+
+        <!-- Michael Thompson -->
+        <div class="ab-lawyer-card" id="michael-thompson">
+          <div class="ab-lawyer-img-wrap">
+            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=500&q=80" alt="Michael Thompson" />
+            <div class="ab-lawyer-area-badge"><i class="fas fa-hospital-user"></i> Personal Injury</div>
+          </div>
+          <div class="ab-lawyer-body">
+            <div class="ab-lawyer-head">
+              <div>
+                <h3>Michael Thompson</h3>
+                <span class="ab-lawyer-title">Partner &nbsp;·&nbsp; Personal Injury</span>
+              </div>
+              <div class="ab-lawyer-social">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="index.html#contact-section"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+            <p class="ab-lawyer-bio">Michael Thompson joined the firm in 2009 after earning his J.D. from Columbia Law School. In 16 years of practice he has recovered over $18 million for accident victims and their families. Known for his tenacious trial preparation and plaintiff-focused strategy, Michael operates on a strict no-win, no-fee basis on all personal injury matters.</p>
+            <div class="ab-lawyer-stats">
+              <div class="ab-lstat"><span>16</span><p>Years at Firm</p></div>
+              <div class="ab-lstat"><span>$18M+</span><p>Recovered</p></div>
+              <div class="ab-lstat"><span>J.D.</span><p>Columbia Law</p></div>
+            </div>
+            <div class="ab-lawyer-credentials">
+              <span><i class="fas fa-certificate"></i> NY State Bar</span>
+              <span><i class="fas fa-award"></i> Top 40 Under 40</span>
+              <span><i class="fas fa-star"></i> Super Lawyers® 2018–25</span>
+            </div>
+            <a href="index.html#contact-section" class="ab-contact-btn"><i class="fas fa-envelope"></i> Contact Michael</a>
+          </div>
+        </div>
+
+        <!-- Sarah Williams -->
+        <div class="ab-lawyer-card" id="sarah-williams">
+          <div class="ab-lawyer-img-wrap">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=500&q=80" alt="Sarah Williams" />
+            <div class="ab-lawyer-area-badge"><i class="fas fa-home"></i> Real Estate Law</div>
+          </div>
+          <div class="ab-lawyer-body">
+            <div class="ab-lawyer-head">
+              <div>
+                <h3>Sarah Williams</h3>
+                <span class="ab-lawyer-title">Senior Associate &nbsp;·&nbsp; Real Estate Law</span>
+              </div>
+              <div class="ab-lawyer-social">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="index.html#contact-section"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+            <p class="ab-lawyer-bio">Sarah Williams graduated from NYU School of Law and joined Justice Law Firm in 2014. Her 11-year practice spans residential closings, commercial leases, landlord–tenant litigation, and zoning matters. She has personally overseen more than 900 property transactions valued in aggregate at over $420 million throughout the New York metro area.</p>
+            <div class="ab-lawyer-stats">
+              <div class="ab-lstat"><span>11</span><p>Years at Firm</p></div>
+              <div class="ab-lstat"><span>900+</span><p>Transactions</p></div>
+              <div class="ab-lstat"><span>J.D.</span><p>NYU Law</p></div>
+            </div>
+            <div class="ab-lawyer-credentials">
+              <span><i class="fas fa-certificate"></i> NY State Bar</span>
+              <span><i class="fas fa-award"></i> Rising Star 2019</span>
+              <span><i class="fas fa-building"></i> REBNY Member</span>
+            </div>
+            <a href="index.html#contact-section" class="ab-contact-btn"><i class="fas fa-envelope"></i> Contact Sarah</a>
+          </div>
+        </div>
+
+        <!-- Jennifer Morgan -->
+        <div class="ab-lawyer-card" id="jennifer-morgan">
+          <div class="ab-lawyer-img-wrap">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&q=80" alt="Jennifer Morgan" />
+            <div class="ab-lawyer-area-badge"><i class="fas fa-passport"></i> Immigration Law</div>
+          </div>
+          <div class="ab-lawyer-body">
+            <div class="ab-lawyer-head">
+              <div>
+                <h3>Jennifer Morgan</h3>
+                <span class="ab-lawyer-title">Partner &nbsp;·&nbsp; Immigration Law</span>
+              </div>
+              <div class="ab-lawyer-social">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="index.html#contact-section"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+            <p class="ab-lawyer-bio">Jennifer Morgan is a Georgetown Law graduate who joined the firm in 2011. Fluent in Spanish and Portuguese, she has represented clients from over 40 countries and secured immigration status for more than 1,200 individuals and families. She is a board member of the American Immigration Lawyers Association (AILA) New York Chapter.</p>
+            <div class="ab-lawyer-stats">
+              <div class="ab-lstat"><span>14</span><p>Years at Firm</p></div>
+              <div class="ab-lstat"><span>1,200+</span><p>Cases Won</p></div>
+              <div class="ab-lstat"><span>J.D.</span><p>Georgetown</p></div>
+            </div>
+            <div class="ab-lawyer-credentials">
+              <span><i class="fas fa-certificate"></i> NY &amp; DC Bar</span>
+              <span><i class="fas fa-globe"></i> AILA Board Member</span>
+              <span><i class="fas fa-star"></i> Super Lawyers® 2019–25</span>
+            </div>
+            <a href="index.html#contact-section" class="ab-contact-btn"><i class="fas fa-envelope"></i> Contact Jennifer</a>
+          </div>
+        </div>
+
+        <!-- Daniel Park -->
+        <div class="ab-lawyer-card" id="daniel-park">
+          <div class="ab-lawyer-img-wrap">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&q=80" alt="Daniel Park" />
+            <div class="ab-lawyer-area-badge"><i class="fas fa-lightbulb"></i> Intellectual Property</div>
+          </div>
+          <div class="ab-lawyer-body">
+            <div class="ab-lawyer-head">
+              <div>
+                <h3>Daniel Park</h3>
+                <span class="ab-lawyer-title">Associate &nbsp;·&nbsp; Intellectual Property Law</span>
+              </div>
+              <div class="ab-lawyer-social">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="index.html#contact-section"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+            <p class="ab-lawyer-bio">Daniel Park earned dual degrees in Electrical Engineering (MIT) and Law (Boston University) before spending four years as a Patent Examiner at the USPTO. Since joining Justice Law Firm in 2016 he has filed over 300 patents, registered more than 150 trademarks, and litigated several high-profile IP disputes for technology and creative industry clients.</p>
+            <div class="ab-lawyer-stats">
+              <div class="ab-lstat"><span>9</span><p>Years at Firm</p></div>
+              <div class="ab-lstat"><span>300+</span><p>Patents Filed</p></div>
+              <div class="ab-lstat"><span>J.D.</span><p>Boston Univ.</p></div>
+            </div>
+            <div class="ab-lawyer-credentials">
+              <span><i class="fas fa-certificate"></i> USPTO Registered</span>
+              <span><i class="fas fa-microchip"></i> B.S. MIT (EE)</span>
+              <span><i class="fas fa-award"></i> IP Star 2022–25</span>
+            </div>
+            <a href="index.html#contact-section" class="ab-contact-btn"><i class="fas fa-envelope"></i> Contact Daniel</a>
+          </div>
+        </div>
+
+        <!-- Amara Osei -->
+        <div class="ab-lawyer-card" id="amara-osei">
+          <div class="ab-lawyer-img-wrap">
+            <img src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=500&q=80" alt="Amara Osei" />
+            <div class="ab-lawyer-area-badge"><i class="fas fa-balance-scale-right"></i> Civil Law</div>
+          </div>
+          <div class="ab-lawyer-body">
+            <div class="ab-lawyer-head">
+              <div>
+                <h3>Amara Osei</h3>
+                <span class="ab-lawyer-title">Associate &nbsp;·&nbsp; Civil Law</span>
+              </div>
+              <div class="ab-lawyer-social">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="index.html#contact-section"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+            <p class="ab-lawyer-bio">Amara Osei graduated magna cum laude from Howard University School of Law and joined the firm in 2017. Her civil litigation practice spans contract disputes, civil rights claims under 42 U.S.C. § 1983, employment discrimination, and class actions. Amara has tried more than 45 cases to verdict and is widely regarded as one of the firm's most formidable courtroom advocates.</p>
+            <div class="ab-lawyer-stats">
+              <div class="ab-lstat"><span>8</span><p>Years at Firm</p></div>
+              <div class="ab-lstat"><span>45+</span><p>Trials Won</p></div>
+              <div class="ab-lstat"><span>J.D.</span><p>Howard Law</p></div>
+            </div>
+            <div class="ab-lawyer-credentials">
+              <span><i class="fas fa-certificate"></i> NY State Bar</span>
+              <span><i class="fas fa-award"></i> Magna Cum Laude</span>
+              <span><i class="fas fa-star"></i> Rising Star 2023–25</span>
+            </div>
+            <a href="index.html#contact-section" class="ab-contact-btn"><i class="fas fa-envelope"></i> Contact Amara</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VALUES ===== -->
+  <section class="about-values">
+    <div class="about-section-wrap">
+      <div class="ab-section-head">
+        <p class="section-eyebrow">OUR PRINCIPLES</p>
+        <h2 class="section-title">What Guides Everything We Do</h2>
+        <div class="section-divider"><span class="divider-icon">⚖</span></div>
+      </div>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-balance-scale"></i></div>
+          <h4>Equal Justice</h4>
+          <p>Every client receives the same quality of representation, regardless of case size or background. Justice should never be a luxury.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-lock"></i></div>
+          <h4>Absolute Confidentiality</h4>
+          <p>Attorney-client privilege is sacred to us. Your personal and case details are protected with the highest level of discretion.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-comments"></i></div>
+          <h4>Transparent Communication</h4>
+          <p>We keep you informed at every stage — plain language updates, no legal jargon, and prompt responses to every inquiry.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-handshake"></i></div>
+          <h4>Community Commitment</h4>
+          <p>We dedicate 5% of our billable hours to pro bono cases each year, ensuring access to justice for those who need it most.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA BANNER ===== -->
+  <section class="about-cta-banner">
+    <div class="cta-banner-overlay"></div>
+    <div class="cta-banner-content">
+      <h2>Ready to Work with a Specialist?</h2>
+      <p>Every one of our six attorneys is available for a free, confidential consultation. Tell us your situation and we will connect you with exactly the right expert.</p>
+      <div class="cta-banner-btns">
+        <a href="index.html#consultation" class="btn-gold pulse-btn"><i class="fas fa-calendar-check"></i> Book Free Consultation</a>
+        <a href="index.html#contact-section" class="btn-outline"><i class="fas fa-phone"></i> Call Us Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon"><i class="fas fa-balance-scale"></i></div>
+          <div class="logo-text">
+            <span class="logo-title">JUSTICE</span>
+            <span class="logo-sub">LAW FIRM</span>
+          </div>
+        </div>
+        <p>Providing exceptional legal services with integrity, dedication, and results. We are here to fight for your justice.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html"><i class="fas fa-angle-right"></i> Home</a></li>
+          <li><a href="about.html"><i class="fas fa-angle-right"></i> About Us</a></li>
+          <li><a href="index.html#practice"><i class="fas fa-angle-right"></i> Practice Areas</a></li>
+          <li><a href="about.html#our-team"><i class="fas fa-angle-right"></i> Attorneys</a></li>
+          <li><a href="index.html#results"><i class="fas fa-angle-right"></i> Case Results</a></li>
+          <li><a href="index.html#blog"><i class="fas fa-angle-right"></i> Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Practice Areas</h4>
+        <ul>
+          <li><a href="#family-law"><i class="fas fa-angle-right"></i> Family Law</a></li>
+          <li><a href="#personal-injury"><i class="fas fa-angle-right"></i> Personal Injury</a></li>
+          <li><a href="#real-estate"><i class="fas fa-angle-right"></i> Real Estate Law</a></li>
+          <li><a href="#immigration"><i class="fas fa-angle-right"></i> Immigration Law</a></li>
+          <li><a href="#ip-law"><i class="fas fa-angle-right"></i> Intellectual Property</a></li>
+          <li><a href="#civil-law"><i class="fas fa-angle-right"></i> Civil Law</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Info</h4>
+        <ul class="contact-list">
+          <li><i class="fas fa-map-marker-alt"></i><span>123 Justice Blvd, Suite 500<br />New York, NY 10001</span></li>
+          <li><i class="fas fa-phone"></i><a href="tel:+12125557890">(212) 555-7890</a></li>
+          <li><i class="fas fa-fax"></i><span>(212) 555-7891</span></li>
+          <li><i class="fas fa-envelope"></i><a href="mailto:info@justicefirm.com">info@justicefirm.com</a></li>
+          <li><i class="fas fa-clock"></i><span>Mon–Fri: 9:00 AM – 6:00 PM</span></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <p>Subscribe to our newsletter for legal insights and updates.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" placeholder="Your Email Address" required />
+          <button type="submit">SUBSCRIBE</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Justice Law Firm. All Rights Reserved. | Designed with integrity &amp; purpose.</p>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+  <div class="chat-bubble">
+    <div class="chat-tooltip">Need help? Chat with us!</div>
+    <button class="chat-btn" onclick="window.location.href='index.html#contact-section'">
+      <i class="fas fa-comment-dots"></i>
+      <span class="chat-ping"></span>
+    </button>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="about.js"></script>
+</body>
+</html>

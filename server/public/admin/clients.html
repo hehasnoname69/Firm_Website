@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clients – Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'employee', redirect: '/auth/employee-login.html' });
+      if (!me) return;
+      if (me.user.role !== 'admin') { window.location.href = '/employee/dashboard.html'; return; }
+
+      let data;
+      try { data = await Portal.api('/admin/clients'); } catch (e) { Portal.toast(e.message, 'error'); return; }
+
+      renderShell({
+        activeKey: 'clients', title: 'Client Management', role: 'admin',
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>Clients</h2>
+              <div class="subtitle">${data.clients.length} client accounts</div>
+            </div>
+            <input type="search" id="search" placeholder="Search clients..." class="btn" style="background:var(--card-2); width:280px" />
+          </div>
+
+          <div class="card">
+            <div class="table-wrap">
+              <table class="data" id="clientsTable">
+                <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Joined</th><th>Last Login</th><th>Actions</th></tr></thead>
+                <tbody>
+                  ${data.clients.map(c => `
+                    <tr data-search="${(c.first_name + ' ' + c.last_name + ' ' + c.email + ' ' + (c.phone||'')).toLowerCase()}">
+                      <td><strong>${c.first_name} ${c.last_name}</strong></td>
+                      <td><a href="mailto:${c.email}">${c.email}</a></td>
+                      <td>${c.phone || '—'}</td>
+                      <td>${Portal.statusBadge(c.status)}</td>
+                      <td class="muted">${Portal.fmtDate(c.created_at)}</td>
+                      <td class="muted">${c.last_login ? Portal.fmtDateTime(c.last_login) : 'Never'}</td>
+                      <td>
+                        ${c.status === 'active'
+                          ? `<button class="btn btn-sm btn-danger" onclick="setStatus(${c.id},'suspended','${c.first_name}')">Suspend</button>`
+                          : `<button class="btn btn-sm" onclick="setStatus(${c.id},'active','${c.first_name}')">Reactivate</button>`}
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `
+      });
+
+      document.getElementById('search').addEventListener('input', (e) => {
+        const q = e.target.value.toLowerCase();
+        document.querySelectorAll('#clientsTable tbody tr').forEach(r => r.style.display = r.dataset.search.includes(q) ? '' : 'none');
+      });
+
+      window.setStatus = async (id, status, name) => {
+        if (!confirm(`Set ${name}'s status to ${status}?`)) return;
+        try {
+          await Portal.api('/admin/clients/' + id + '/status', { method: 'PUT', body: { status } });
+          Portal.toast('Status updated', 'success');
+          setTimeout(() => location.reload(), 500);
+        } catch (e) { Portal.toast(e.message, 'error'); }
+      };
+    })();
+  </script>
+</body>
+</html>

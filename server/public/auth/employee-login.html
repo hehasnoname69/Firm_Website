@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Sign In – Justice Law Firm</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="auth-side dark">
+      <a href="/" class="auth-logo">
+        <div class="logo-icon"><i class="fas fa-balance-scale"></i></div>
+        <div>
+          <div class="logo-title">JUSTICE</div>
+          <div class="logo-sub">LAW FIRM</div>
+        </div>
+      </a>
+      <h1>Employee Portal</h1>
+      <p>Sign in to access your role-based dashboard. Manage cases, intake submissions, tickets, and — for investigators — digital asset recovery cases.</p>
+      <div class="auth-roles">
+        <div><i class="fas fa-user-shield"></i> Administrator — full access &amp; CMS</div>
+        <div><i class="fas fa-user-tie"></i> Attorney — assigned cases &amp; clients</div>
+        <div><i class="fas fa-user-graduate"></i> Paralegal — case support</div>
+        <div><i class="fas fa-concierge-bell"></i> Receptionist — intake &amp; tickets</div>
+        <div><i class="fas fa-search"></i> Investigator — asset recovery</div>
+      </div>
+      <div class="auth-demo">
+        <strong>Try the demo accounts</strong>
+        <code>admin@justicefirm.com / admin123</code>
+        <code>reception@justicefirm.com / password123</code>
+        <code>investigator@justicefirm.com / password123</code>
+      </div>
+    </div>
+    <div class="auth-form-wrap">
+      <h2>Employee Sign In</h2>
+      <form id="empLoginForm">
+        <div class="field">
+          <label>Work Email</label>
+          <input type="email" name="email" placeholder="you@justicefirm.com" required autocomplete="email" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="Enter your password" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn btn-gold btn-lg" style="width:100%; justify-content:center">
+          <span class="btn-label">Sign In to Workspace</span>
+        </button>
+        <div class="form-error" id="formError"></div>
+      </form>
+      <p class="auth-bottom">Not an employee? <a href="/auth/login.html">Client sign in</a></p>
+    </div>
+  </div>
+  <script src="auth.js"></script>
+</body>
+</html>

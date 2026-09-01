@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard – Justice Law Firm</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'employee', redirect: '/auth/employee-login.html' });
+      if (!me) return;
+      if (me.user.role !== 'admin') {
+        Portal.toast('Admin access required', 'error');
+        setTimeout(() => window.location.href = '/employee/dashboard.html', 800);
+        return;
+      }
+
+      let data;
+      try { data = await Portal.api('/admin/analytics'); } catch (e) { Portal.toast(e.message, 'error'); return; }
+      const t = data.totals;
+
+      renderShell({
+        activeKey: 'analytics', title: 'Admin Dashboard', role: 'admin',
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>Firm Overview</h2>
+              <div class="subtitle">Real-time business intelligence &amp; key metrics</div>
+            </div>
+          </div>
+
+          <div class="grid grid-4 mb-3">
+            <div class="stat">
+              <div class="icon"><i class="fas fa-users"></i></div>
+              <div><div class="value">${t.totalClients}</div><div class="label">Total Clients</div></div>
+            </div>
+            <div class="stat">
+              <div class="icon"><i class="fas fa-user-tie"></i></div>
+              <div><div class="value">${t.totalEmployees}</div><div class="label">Active Employees</div></div>
+            </div>
+            <div class="stat">
+              <div class="icon"><i class="fas fa-folder-open"></i></div>
+              <div><div class="value">${t.activeCases}</div><div class="label">Active Cases</div><div class="delta">${t.closedCases} closed</div></div>
+            </div>
+            <div class="stat">
+              <div class="icon"><i class="fas fa-life-ring"></i></div>
+              <div><div class="value">${t.openTickets}</div><div class="label">Open Tickets</div></div>
+            </div>
+            <div class="stat">
+              <div class="icon"><i class="fas fa-shield-halved"></i></div>
+              <div><div class="value">${t.arCases}</div><div class="label">Asset Recovery</div><div class="delta up">${t.arRecovered} recovered</div></div>
+            </div>
+            <div class="stat">
+              <div class="icon" style="background:rgba(34,197,94,0.12); border-color:rgba(34,197,94,0.3); color:#4ade80"><i class="fas fa-dollar-sign"></i></div>
+              <div><div class="value" style="color:#4ade80">${Portal.fmtMoney(t.revenuePaid)}</div><div class="label">Revenue (Paid)</div></div>
+            </div>
+            <div class="stat">
+              <div class="icon" style="background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.3); color:#fbbf24"><i class="fas fa-hourglass-half"></i></div>
+              <div><div class="value" style="color:#fbbf24">${Portal.fmtMoney(t.revenueDue)}</div><div class="label">Outstanding</div></div>
+            </div>
+            <div class="stat">
+              <div class="icon" style="background:rgba(239,68,68,0.12); border-color:rgba(239,68,68,0.3); color:#f87171"><i class="fas fa-triangle-exclamation"></i></div>
+              <div><div class="value" style="color:#f87171">${t.overdueInvoices || 0}</div><div class="label">Overdue Invoices</div></div>
+            </div>
+          </div>
+
+          <div class="grid grid-2 mb-2">
+            <div class="card">
+              <div class="card-title"><i class="fas fa-chart-line"></i> New Cases (Last 6 Months)</div>
+              <canvas id="casesChart" height="160"></canvas>
+            </div>
+            <div class="card">
+              <div class="card-title"><i class="fas fa-inbox"></i> Consultations (Last 6 Months)</div>
+              <canvas id="consultsChart" height="160"></canvas>
+            </div>
+          </div>
+
+          <div class="grid grid-3">
+            <div class="card">
+              <div class="card-title"><i class="fas fa-life-ring"></i> Tickets by Status</div>
+              <canvas id="ticketsChart" height="180"></canvas>
+            </div>
+            <div class="card">
+              <div class="card-title"><i class="fas fa-briefcase"></i> Cases by Practice Area</div>
+              <canvas id="servicesChart" height="180"></canvas>
+            </div>
+            <div class="card">
+              <div class="card-title"><i class="fas fa-shield-halved"></i> Asset Recovery Status</div>
+              <canvas id="arChart" height="180"></canvas>
+            </div>
+          </div>
+        `
+      });
+
+      const chartOpts = {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#e6e8eb' } } },
+        scales: { x: { ticks: { color: 'rgba(230,232,235,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                  y: { ticks: { color: 'rgba(230,232,235,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true } }
+      };
+
+      new Chart(document.getElementById('casesChart'), {
+        type: 'line',
+        data: {
+          labels: data.monthly_cases.map(m => m.month),
+          datasets: [{ label: 'Cases Opened', data: data.monthly_cases.map(m => m.count), borderColor: '#c9a84c', backgroundColor: 'rgba(201,168,76,0.1)', tension: 0.3, fill: true }]
+        },
+        options: chartOpts
+      });
+
+      new Chart(document.getElementById('consultsChart'), {
+        type: 'bar',
+        data: {
+          labels: data.monthly_consults.map(m => m.month),
+          datasets: [{ label: 'Consultations', data: data.monthly_consults.map(m => m.count), backgroundColor: 'rgba(59,130,246,0.6)', borderColor: '#3b82f6' }]
+        },
+        options: chartOpts
+      });
+
+      const colorMap = { open: '#3b82f6', in_progress: '#c9a84c', waiting: '#f59e0b', resolved: '#22c55e', closed: '#6b7280', pending: '#f59e0b', paid: '#22c55e', overdue: '#ef4444', new: '#3b82f6', submitted: '#3b82f6', under_review: '#c9a84c', evidence_gathering: '#a855f7', tracing: '#a855f7', recovery_action: '#f59e0b', recovered: '#22c55e', unrecoverable: '#ef4444' };
+      new Chart(document.getElementById('ticketsChart'), {
+        type: 'doughnut',
+        data: { labels: data.tickets_by_status.map(s => s.status), datasets: [{ data: data.tickets_by_status.map(s => s.count), backgroundColor: data.tickets_by_status.map(s => colorMap[s.status] || '#6b7280') }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#e6e8eb', font: { size: 11 } } } } }
+      });
+
+      new Chart(document.getElementById('servicesChart'), {
+        type: 'bar',
+        data: { labels: data.cases_by_service.map(s => s.service_category), datasets: [{ label: 'Cases', data: data.cases_by_service.map(s => s.count), backgroundColor: 'rgba(201,168,76,0.6)' }] },
+        options: { ...chartOpts, indexAxis: 'y' }
+      });
+
+      new Chart(document.getElementById('arChart'), {
+        type: 'doughnut',
+        data: { labels: data.ar_by_status.map(s => s.status), datasets: [{ data: data.ar_by_status.map(s => s.count), backgroundColor: data.ar_by_status.map(s => colorMap[s.status] || '#6b7280') }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#e6e8eb', font: { size: 11 } } } } }
+      });
+    })();
+  </script>
+</body>
+</html>

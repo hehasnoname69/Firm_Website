@@ -1,0 +1,8 @@
+node_modules/
+server/db/firm.db
+server/db/firm.db-shm
+server/db/firm.db-wal
+server/uploads/
+*.log
+.env
+.DS_Store

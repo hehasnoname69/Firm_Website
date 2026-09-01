@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asset Recovery – Employee Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'employee', redirect: '/auth/employee-login.html' });
+      if (!me) return;
+      const isAdmin = me.user.role === 'admin';
+      const role = isAdmin ? 'admin' : 'employee';
+
+      let data;
+      try { data = await Portal.api('/employee/asset-recovery'); } catch (e) { Portal.toast(e.message, 'error'); return; }
+
+      renderShell({
+        activeKey: 'asset', title: 'Digital Asset Recovery Cases', role,
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>${me.user.role === 'investigator' ? 'My Recovery Cases' : 'All Asset Recovery Cases'}</h2>
+              <div class="subtitle">${data.cases.length} case(s) · Click any row to open and update</div>
+            </div>
+          </div>
+
+          ${data.cases.length === 0 ? `<div class="card"><div class="empty"><i class="fas fa-shield-halved"></i><h4>No recovery cases</h4></div></div>` : `
+            <div class="card">
+              <div class="table-wrap">
+                <table class="data">
+                  <thead><tr>
+                    <th>Case #</th><th>Client</th><th>Type</th><th>Amount</th>
+                    <th>Investigator</th><th>Status</th><th>Submitted</th><th>Recovered</th><th></th>
+                  </tr></thead>
+                  <tbody>
+                    ${data.cases.map(c => `
+                      <tr>
+                        <td><strong>${c.case_number}</strong></td>
+                        <td>${c.client_first} ${c.client_last}<br><span class="muted" style="font-size:11px">${c.client_email}</span></td>
+                        <td>${(c.incident_type || '').replace(/_/g, ' ')}</td>
+                        <td><strong>${Portal.fmtMoney(c.amount_lost, c.currency)}</strong></td>
+                        <td>${c.inv_first ? `${c.inv_first} ${c.inv_last}` : '<span class="muted">Unassigned</span>'}</td>
+                        <td>${Portal.statusBadge(c.intake_status)}</td>
+                        <td class="muted">${Portal.fmtDate(c.created_at)}</td>
+                        <td>${c.recovery_amount ? Portal.fmtMoney(c.recovery_amount, c.currency) : '—'}</td>
+                        <td><button class="btn btn-sm" onclick="openCase(${c.id})">Open</button></td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `}
+
+          <div class="modal-backdrop" id="arModal"></div>
+        `
+      });
+
+      const investigators = isAdmin ? await Portal.api('/admin/employees').then(r => r.employees.filter(e => e.role === 'investigator' && e.status === 'active')).catch(() => []) : [];
+
+      window.openCase = (id) => {
+        const c = data.cases.find(x => x.id === id);
+        const modal = document.getElementById('arModal');
+        modal.classList.add('open');
+        modal.innerHTML = `
+          <div class="modal" style="max-width:800px">
+            <div class="modal-header">
+              <div>
+                <h3>${c.case_number} — ${(c.incident_type || '').replace(/_/g,' ')}</h3>
+                <div class="muted" style="font-size:12px">${c.client_first} ${c.client_last} · ${c.client_email} · ${Portal.statusBadge(c.intake_status)}</div>
+              </div>
+              <button class="modal-close" onclick="document.getElementById('arModal').classList.remove('open')">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="grid grid-3 mb-2">
+                <div class="card" style="margin:0"><div class="card-subtle">Amount Lost</div><div style="color:#fff; font-size:18px; font-weight:800">${Portal.fmtMoney(c.amount_lost, c.currency)}</div></div>
+                <div class="card" style="margin:0"><div class="card-subtle">Platform</div><div style="color:#fff">${c.scam_platform || '—'}</div></div>
+                <div class="card" style="margin:0"><div class="card-subtle">Date</div><div style="color:#fff">${Portal.fmtDate(c.scam_date)}</div></div>
+              </div>
+              <div class="card mb-2">
+                <div class="card-title">Update Status</div>
+                <form id="arForm">
+                  <div class="form-row two">
+                    <div class="field"><label>Intake Status</label>
+                      <select name="intake_status">
+                        <option value="submitted" ${c.intake_status==='submitted'?'selected':''}>Submitted</option>
+                        <option value="under_review" ${c.intake_status==='under_review'?'selected':''}>Under Review</option>
+                        <option value="evidence_gathering" ${c.intake_status==='evidence_gathering'?'selected':''}>Evidence Gathering</option>
+                        <option value="tracing" ${c.intake_status==='tracing'?'selected':''}>Tracing</option>
+                        <option value="recovery_action" ${c.intake_status==='recovery_action'?'selected':''}>Recovery Action</option>
+                        <option value="recovered" ${c.intake_status==='recovered'?'selected':''}>Recovered</option>
+                        <option value="unrecoverable" ${c.intake_status==='unrecoverable'?'selected':''}>Unrecoverable</option>
+                        <option value="closed" ${c.intake_status==='closed'?'selected':''}>Closed</option>
+                      </select>
+                    </div>
+                    <div class="field"><label>Recovered Amount (${c.currency})</label>
+                      <input name="recovery_amount" value="${c.recovery_amount || ''}" placeholder="0.00" />
+                    </div>
+                  </div>
+                  ${isAdmin ? `
+                    <div class="field"><label>Assigned Investigator</label>
+                      <select name="assigned_investigator_id">
+                        <option value="">— Keep current —</option>
+                        ${investigators.map(i => `<option value="${i.id}" ${c.assigned_investigator_id === i.id ? 'selected' : ''}>${i.first_name} ${i.last_name}</option>`).join('')}
+                      </select>
+                    </div>
+                  ` : ''}
+                  <div class="field"><label>Add Investigation Note</label><textarea name="notes" rows="3" placeholder="What was done, what was found, next steps..."></textarea></div>
+                  <button type="submit" class="btn btn-gold"><i class="fas fa-save"></i> Save &amp; Notify Client</button>
+                </form>
+              </div>
+              <div class="card">
+                <div class="card-title">Blockchain / Evidence</div>
+                <div class="grid grid-2">
+                  <div><div class="card-subtle">Wallet Address</div><div style="color:#fff; font-family:monospace; font-size:12px; word-break:break-all">${c.wallet_address || '—'}</div></div>
+                  <div><div class="card-subtle">Transaction Hash</div><div style="color:#fff; font-family:monospace; font-size:12px; word-break:break-all">${c.transaction_hash || '—'}</div></div>
+                  <div><div class="card-subtle">Blockchain</div><div style="color:#fff">${c.blockchain || '—'}</div></div>
+                  <div><div class="card-subtle">Exchange</div><div style="color:#fff">${c.exchange_name || '—'}</div></div>
+                </div>
+                ${c.has_police_report ? '<div class="alert success mt-2"><i class="fas fa-check"></i> Client has filed a police report</div>' : ''}
+                ${c.evidence_description ? `<div class="alert mt-2"><strong>Evidence:</strong><br>${(c.evidence_description || '').replace(/</g,'&lt;').replace(/\n/g,'<br>')}</div>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+        document.getElementById('arForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const data = Object.fromEntries(new FormData(e.target).entries());
+          try {
+            await Portal.api('/employee/asset-recovery/' + id, { method: 'PUT', body: data });
+            Portal.toast('Case updated; client notified', 'success');
+            setTimeout(() => location.reload(), 700);
+          } catch (err) { Portal.toast(err.message, 'error'); }
+        });
+      };
+    })();
+  </script>
+</body>
+</html>

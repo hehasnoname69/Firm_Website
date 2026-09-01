@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tickets – Justice Law Firm Employee Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'employee', redirect: '/auth/employee-login.html' });
+      if (!me) return;
+      const isAdmin = me.user.role === 'admin';
+      const role = isAdmin ? 'admin' : 'employee';
+
+      let data;
+      try { data = await Portal.api('/employee/tickets'); } catch (e) { Portal.toast(e.message, 'error'); return; }
+
+      renderShell({
+        activeKey: 'tickets', title: 'Support Tickets', role,
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>Support Tickets</h2>
+              <div class="subtitle">${data.tickets.length} ticket(s)</div>
+            </div>
+            <select class="btn" onchange="filterStatus(this.value)">
+              <option value="">All Statuses</option>
+              <option value="open">Open</option>
+              <option value="in_progress">In Progress</option>
+              <option value="waiting">Waiting</option>
+              <option value="resolved">Resolved</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+
+          ${data.tickets.length === 0 ? `<div class="card"><div class="empty"><i class="fas fa-life-ring"></i><h4>No tickets</h4></div></div>` : `
+            <div class="card">
+              <div class="table-wrap">
+                <table class="data" id="ticketsTable">
+                  <thead><tr><th>Ticket #</th><th>Client</th><th>Subject</th><th>Priority</th><th>Status</th><th>Updated</th><th></th></tr></thead>
+                  <tbody>
+                    ${data.tickets.map(t => `
+                      <tr data-status="${t.status}">
+                        <td><strong>${t.ticket_number}</strong></td>
+                        <td>${t.client_first} ${t.client_last}</td>
+                        <td>${t.subject}</td>
+                        <td>${Portal.priorityBadge(t.priority)}</td>
+                        <td>${Portal.statusBadge(t.status)}</td>
+                        <td class="muted">${Portal.fmtDateTime(t.updated_at)}</td>
+                        <td><button class="btn btn-sm" onclick="openTicket(${t.id})">Open</button></td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `}
+
+          <div class="modal-backdrop" id="ticketModal"></div>
+        `
+      });
+
+      window.filterStatus = (s) => {
+        document.querySelectorAll('#ticketsTable tbody tr').forEach(r => {
+          r.style.display = !s || r.dataset.status === s ? '' : 'none';
+        });
+      };
+
+      window.openTicket = async (id) => {
+        const modal = document.getElementById('ticketModal');
+        modal.classList.add('open');
+        modal.innerHTML = '<div class="modal"><div class="modal-body"><div class="spinner"></div></div></div>';
+        let d, msg;
+        try { msg = await Portal.api(`/tickets/${id}`).catch(() => null); } catch (e) {}
+        const t = data.tickets.find(x => x.id === id);
+        const messages = msg ? msg.messages : [];
+        modal.innerHTML = `
+          <div class="modal" style="max-width:700px">
+            <div class="modal-header">
+              <div>
+                <h3>${t.subject}</h3>
+                <div class="muted" style="font-size:12px">${t.ticket_number} · ${t.client_first} ${t.client_last} · ${Portal.statusBadge(t.status)} · ${Portal.priorityBadge(t.priority)}</div>
+              </div>
+              <button class="modal-close" onclick="document.getElementById('ticketModal').classList.remove('open')">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="messages scroll-area" style="max-height:340px; margin-bottom:16px">
+                ${messages.map(m => `
+                  <div class="msg ${m.author_type}">
+                    <div class="msg-meta"><strong>${m.author_name || 'Unknown'}</strong> · ${Portal.fmtDateTime(m.created_at)}</div>
+                    <div class="msg-body">${m.message.replace(/</g, '&lt;')}</div>
+                  </div>
+                `).join('')}
+              </div>
+              <form id="replyForm">
+                <div class="field"><label>Your Reply</label><textarea name="message" required rows="3"></textarea></div>
+                <div class="form-row two">
+                  <div class="field"><label>Update Status</label>
+                    <select name="status">
+                      <option value="">Keep current</option>
+                      <option value="open">Open</option>
+                      <option value="in_progress">In Progress</option>
+                      <option value="waiting">Waiting</option>
+                      <option value="resolved">Resolved</option>
+                      <option value="closed">Closed</option>
+                    </select>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-gold"><i class="fas fa-paper-plane"></i> Send Reply</button>
+              </form>
+            </div>
+          </div>
+        `;
+        document.getElementById('replyForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const fd = Object.fromEntries(new FormData(e.target).entries());
+          const body = { message: fd.message };
+          if (fd.status) body.status = fd.status;
+          try {
+            await Portal.api('/employee/tickets/' + id + '/reply', { method: 'POST', body });
+            Portal.toast('Reply sent', 'success');
+            setTimeout(() => location.reload(), 600);
+          } catch (err) { Portal.toast(err.message, 'error'); }
+        });
+      };
+    })();
+  </script>
+</body>
+</html>

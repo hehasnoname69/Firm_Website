@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support Tickets – Justice Law Firm Client Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'client', redirect: '/auth/login.html' });
+      if (!me) return;
+      let data;
+      try { data = await Portal.api('/tickets'); } catch (e) { Portal.toast(e.message, 'error'); return; }
+      const focusId = getQueryParam('id');
+
+      renderShell({
+        activeKey: 'tickets', title: 'Support Tickets', role: 'client',
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>Support Tickets</h2>
+              <div class="subtitle">Raise and track questions to our team</div>
+            </div>
+            <button class="btn btn-gold" onclick="openNewTicketModal()"><i class="fas fa-plus"></i> New Ticket</button>
+          </div>
+
+          ${data.tickets.length === 0 ? `
+            <div class="card"><div class="empty">
+              <i class="fas fa-life-ring"></i>
+              <h4>No tickets yet</h4>
+              <p>Have a question? Open a support ticket and our team will respond promptly.</p>
+              <button class="btn btn-gold" onclick="openNewTicketModal()">Open Your First Ticket</button>
+            </div></div>
+          ` : `
+            <div class="card">
+              <div class="table-wrap">
+                <table class="data">
+                  <thead><tr><th>Ticket #</th><th>Subject</th><th>Category</th><th>Priority</th><th>Status</th><th>Updated</th><th></th></tr></thead>
+                  <tbody>
+                    ${data.tickets.map(t => `
+                      <tr>
+                        <td><strong>${t.ticket_number}</strong></td>
+                        <td>${t.subject}</td>
+                        <td class="muted">${t.category}</td>
+                        <td>${Portal.priorityBadge(t.priority)}</td>
+                        <td>${Portal.statusBadge(t.status)}</td>
+                        <td class="muted">${Portal.fmtDateTime(t.updated_at)}</td>
+                        <td><a href="/portal/tickets.html?id=${t.id}" class="btn btn-sm">View</a></td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `}
+
+          <div class="modal-backdrop" id="newTicketModal">
+            <div class="modal">
+              <div class="modal-header">
+                <h3>Open a New Support Ticket</h3>
+                <button class="modal-close" onclick="closeModal('newTicketModal')">&times;</button>
+              </div>
+              <div class="modal-body">
+                <form id="newTicketForm">
+                  <div class="field"><label>Subject</label><input name="subject" required maxlength="200" placeholder="Brief summary" /></div>
+                  <div class="form-row two">
+                    <div class="field"><label>Category</label>
+                      <select name="category">
+                        <option value="general">General Question</option>
+                        <option value="billing">Billing</option>
+                        <option value="case_update">Case Update Request</option>
+                        <option value="document">Document Help</option>
+                        <option value="asset_recovery">Asset Recovery</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    <div class="field"><label>Priority</label>
+                      <select name="priority">
+                        <option value="low">Low</option>
+                        <option value="normal" selected>Normal</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="field"><label>Message</label><textarea name="message" required rows="5" placeholder="Describe your question in detail..."></textarea></div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button class="btn" onclick="closeModal('newTicketModal')">Cancel</button>
+                <button class="btn btn-gold" onclick="submitNewTicket()">Submit Ticket</button>
+              </div>
+            </div>
+          </div>
+
+          ${focusId ? `<div class="modal-backdrop open" id="viewTicketModal" data-id="${focusId}"></div>` : ''}
+        `
+      });
+
+      window.openNewTicketModal = () => document.getElementById('newTicketModal').classList.add('open');
+      window.closeModal = (id) => document.getElementById(id).classList.remove('open');
+
+      window.submitNewTicket = async () => {
+        const form = document.getElementById('newTicketForm');
+        const data = Object.fromEntries(new FormData(form).entries());
+        if (!data.subject || !data.message) { Portal.toast('Subject and message are required', 'error'); return; }
+        try {
+          const res = await Portal.api('/tickets', { method: 'POST', body: data });
+          Portal.toast(`Ticket ${res.ticket_number} created`, 'success');
+          setTimeout(() => location.reload(), 800);
+        } catch (e) { Portal.toast(e.message, 'error'); }
+      };
+
+      if (focusId) {
+        let detail;
+        try { detail = await Portal.api('/tickets/' + focusId); } catch (e) { Portal.toast(e.message, 'error'); return; }
+        const t = detail.ticket;
+        const messages = detail.messages;
+        const modal = document.getElementById('viewTicketModal');
+        modal.innerHTML = `
+          <div class="modal" style="max-width:700px">
+            <div class="modal-header">
+              <div>
+                <h3>${t.subject}</h3>
+                <div class="muted" style="font-size:12px">${t.ticket_number} · ${t.category} · ${Portal.statusBadge(t.status)} · ${Portal.priorityBadge(t.priority)}</div>
+              </div>
+              <button class="modal-close" onclick="closeModal('viewTicketModal'); history.replaceState({},'',location.pathname)">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="messages scroll-area" style="max-height:340px; margin-bottom:16px">
+                ${messages.map(m => `
+                  <div class="msg ${m.author_type}">
+                    <div class="msg-meta">
+                      <strong>${m.author_name || 'Unknown'}</strong>${m.author_role ? ` <span class="badge badge-gold" style="font-size:9px">${m.author_role.replace(/_/g,' ')}</span>` : ''}
+                      · ${Portal.fmtDateTime(m.created_at)}
+                    </div>
+                    <div class="msg-body">${m.message.replace(/</g, '&lt;')}</div>
+                  </div>
+                `).join('')}
+              </div>
+              ${t.status === 'closed' ? '<div class="alert">This ticket is closed.</div>' : `
+                <form id="replyForm">
+                  <div class="field"><label>Your Reply</label><textarea name="message" required rows="3" placeholder="Type your message..."></textarea></div>
+                </form>
+              `}
+            </div>
+            <div class="modal-footer">
+              <button class="btn" onclick="closeModal('viewTicketModal'); history.replaceState({},'',location.pathname)">Close</button>
+              ${t.status !== 'closed' ? `<button class="btn btn-gold" onclick="submitReply(${t.id})">Send Reply</button>` : ''}
+            </div>
+          </div>
+        `;
+      }
+
+      window.submitReply = async (id) => {
+        const form = document.getElementById('replyForm');
+        const message = form.message.value.trim();
+        if (!message) { Portal.toast('Please enter a message', 'error'); return; }
+        try {
+          await Portal.api('/tickets/' + id + '/reply', { method: 'POST', body: { message } });
+          Portal.toast('Reply sent', 'success');
+          setTimeout(() => location.reload(), 600);
+        } catch (e) { Portal.toast(e.message, 'error'); }
+      };
+    })();
+  </script>
+</body>
+</html>

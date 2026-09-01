@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employees – Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'employee', redirect: '/auth/employee-login.html' });
+      if (!me) return;
+      if (me.user.role !== 'admin') { window.location.href = '/employee/dashboard.html'; return; }
+
+      let data;
+      try { data = await Portal.api('/admin/employees'); } catch (e) { Portal.toast(e.message, 'error'); return; }
+
+      const roleColors = { admin: 'badge-red', attorney: 'badge-gold', paralegal: 'badge-blue', receptionist: 'badge-purple', investigator: 'badge-green' };
+
+      renderShell({
+        activeKey: 'employees', title: 'Employee Management', role: 'admin',
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>Employees</h2>
+              <div class="subtitle">${data.employees.length} team members</div>
+            </div>
+            <button class="btn btn-gold" onclick="openNewEmployeeModal()"><i class="fas fa-plus"></i> Add Employee</button>
+          </div>
+
+          <div class="card">
+            <div class="table-wrap">
+              <table class="data">
+                <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Title</th><th>Department</th><th>Status</th><th>Last Login</th><th>Actions</th></tr></thead>
+                <tbody>
+                  ${data.employees.map(e => `
+                    <tr>
+                      <td><strong>${e.first_name} ${e.last_name}</strong></td>
+                      <td>${e.email}</td>
+                      <td><span class="badge ${roleColors[e.role] || 'badge-gray'}">${e.role}</span></td>
+                      <td>${e.title || '—'}</td>
+                      <td>${e.department || '—'}</td>
+                      <td>${Portal.statusBadge(e.status)}</td>
+                      <td class="muted">${e.last_login ? Portal.fmtDateTime(e.last_login) : 'Never'}</td>
+                      <td>
+                        <div class="row-actions">
+                          <button class="btn btn-sm" onclick='openEditEmployee(${JSON.stringify(e).replace(/'/g,"&#39;")})'>Edit</button>
+                          ${e.id !== me.user.id ? `<button class="btn btn-sm btn-danger" onclick="disableEmployee(${e.id},'${e.first_name}')">Disable</button>` : ''}
+                        </div>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="modal-backdrop" id="empModal"></div>
+        `
+      });
+
+      window.openNewEmployeeModal = () => openEmployeeForm(null);
+      window.openEditEmployee = (e) => openEmployeeForm(e);
+
+      function openEmployeeForm(emp) {
+        const isEdit = !!emp;
+        const modal = document.getElementById('empModal');
+        modal.classList.add('open');
+        modal.innerHTML = `
+          <div class="modal">
+            <div class="modal-header">
+              <h3>${isEdit ? 'Edit' : 'Add New'} Employee</h3>
+              <button class="modal-close" onclick="document.getElementById('empModal').classList.remove('open')">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form id="empForm">
+                <div class="form-row two">
+                  <div class="field"><label>First Name *</label><input name="first_name" required value="${emp?.first_name || ''}" /></div>
+                  <div class="field"><label>Last Name *</label><input name="last_name" required value="${emp?.last_name || ''}" /></div>
+                </div>
+                <div class="form-row two">
+                  <div class="field"><label>Email *</label><input name="email" type="email" required value="${emp?.email || ''}" ${isEdit ? 'readonly' : ''} /></div>
+                  <div class="field"><label>Phone</label><input name="phone" value="${emp?.phone || ''}" /></div>
+                </div>
+                <div class="form-row two">
+                  <div class="field"><label>Role *</label>
+                    <select name="role" required>
+                      <option value="admin" ${emp?.role==='admin'?'selected':''}>Administrator</option>
+                      <option value="attorney" ${emp?.role==='attorney'?'selected':''}>Attorney</option>
+                      <option value="paralegal" ${emp?.role==='paralegal'?'selected':''}>Paralegal</option>
+                      <option value="receptionist" ${emp?.role==='receptionist'?'selected':''}>Receptionist</option>
+                      <option value="investigator" ${emp?.role==='investigator'?'selected':''}>Investigator</option>
+                    </select>
+                  </div>
+                  <div class="field"><label>Title</label><input name="title" value="${emp?.title || ''}" placeholder="e.g. Senior Partner" /></div>
+                </div>
+                <div class="form-row two">
+                  <div class="field"><label>Department</label><input name="department" value="${emp?.department || ''}" placeholder="e.g. Family Law" /></div>
+                  ${isEdit ? `
+                    <div class="field"><label>Status</label>
+                      <select name="status">
+                        <option value="active" ${emp?.status==='active'?'selected':''}>Active</option>
+                        <option value="disabled" ${emp?.status==='disabled'?'selected':''}>Disabled</option>
+                      </select>
+                    </div>
+                  ` : `<div></div>`}
+                </div>
+                <div class="field">
+                  <label>${isEdit ? 'Reset Password (optional, min 8 chars)' : 'Password * (min 8 chars)'}</label>
+                  <input name="password" type="password" minlength="8" ${isEdit ? '' : 'required'} placeholder="${isEdit ? 'Leave blank to keep current' : ''}" />
+                </div>
+                <button type="submit" class="btn btn-gold"><i class="fas fa-save"></i> ${isEdit ? 'Save Changes' : 'Create Employee'}</button>
+              </form>
+            </div>
+          </div>
+        `;
+        document.getElementById('empForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const data = Object.fromEntries(new FormData(e.target).entries());
+          if (isEdit && !data.password) delete data.password;
+          try {
+            if (isEdit) {
+              await Portal.api('/admin/employees/' + emp.id, { method: 'PUT', body: data });
+              Portal.toast('Employee updated', 'success');
+            } else {
+              await Portal.api('/admin/employees', { method: 'POST', body: data });
+              Portal.toast('Employee created', 'success');
+            }
+            setTimeout(() => location.reload(), 600);
+          } catch (err) { Portal.toast(err.message, 'error'); }
+        });
+      }
+
+      window.disableEmployee = async (id, name) => {
+        if (!confirm(`Disable ${name}? They will no longer be able to log in.`)) return;
+        try {
+          await Portal.api('/admin/employees/' + id, { method: 'DELETE' });
+          Portal.toast('Employee disabled', 'success');
+          setTimeout(() => location.reload(), 500);
+        } catch (err) { Portal.toast(err.message, 'error'); }
+      };
+    })();
+  </script>
+</body>
+</html>

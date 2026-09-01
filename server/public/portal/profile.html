@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile & Settings – Justice Law Firm Client Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'client', redirect: '/auth/login.html' });
+      if (!me) return;
+      const u = me.user;
+
+      renderShell({
+        activeKey: 'profile', title: 'Profile & Settings', role: 'client',
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>Profile &amp; Settings</h2>
+              <div class="subtitle">Manage your personal information and notification preferences</div>
+            </div>
+          </div>
+
+          <div class="grid grid-3">
+            <div class="card" style="grid-column: span 2">
+              <div class="card-title"><i class="fas fa-user"></i> Personal Information</div>
+              <form id="profileForm">
+                <div class="form-row two">
+                  <div class="field"><label>First Name</label><input name="first_name" value="${u.first_name || ''}" /></div>
+                  <div class="field"><label>Last Name</label><input name="last_name" value="${u.last_name || ''}" /></div>
+                </div>
+                <div class="form-row two">
+                  <div class="field"><label>Email</label><input value="${u.email}" disabled /></div>
+                  <div class="field"><label>Phone</label><input name="phone" value="${u.phone || ''}" /></div>
+                </div>
+                <div class="form-row full">
+                  <div class="field"><label>Address</label><input name="address" value="${u.address || ''}" /></div>
+                </div>
+                <div class="form-row three">
+                  <div class="field"><label>City</label><input name="city" value="${u.city || ''}" /></div>
+                  <div class="field"><label>State</label><input name="state" value="${u.state || ''}" /></div>
+                  <div class="field"><label>Zip</label><input name="zip" value="${u.zip || ''}" /></div>
+                </div>
+                <button type="submit" class="btn btn-gold"><i class="fas fa-save"></i> Save Changes</button>
+              </form>
+            </div>
+
+            <div class="card">
+              <div class="card-title"><i class="fas fa-bell"></i> Notifications</div>
+              <form id="notifForm">
+                <div class="field-row-check mb-2">
+                  <input type="checkbox" id="ne" name="notification_email" ${u.notification_email ? 'checked' : ''} />
+                  <label for="ne">Email notifications</label>
+                </div>
+                <div class="field-row-check mb-2">
+                  <input type="checkbox" id="ns" name="notification_sms" ${u.notification_sms ? 'checked' : ''} />
+                  <label for="ns">SMS notifications</label>
+                </div>
+                <p class="muted" style="font-size:12px; margin-top:8px">You'll receive updates about your cases, invoices, tickets, and asset recovery progress.</p>
+                <button type="submit" class="btn btn-gold mt-2" style="width:100%; justify-content:center"><i class="fas fa-save"></i> Save Preferences</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="card mt-2">
+            <div class="card-title"><i class="fas fa-key"></i> Change Password</div>
+            <form id="passwordForm">
+              <div class="form-row two">
+                <div class="field"><label>Current Password</label><input type="password" name="current_password" required minlength="8" /></div>
+                <div class="field"><label>New Password</label><input type="password" name="new_password" required minlength="8" /></div>
+              </div>
+              <button type="submit" class="btn btn-gold"><i class="fas fa-key"></i> Update Password</button>
+            </form>
+          </div>
+        `
+      });
+
+      document.getElementById('profileForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+        try {
+          await Portal.api('/me/profile', { method: 'PUT', body: data });
+          Portal.toast('Profile updated', 'success');
+        } catch (err) { Portal.toast(err.message, 'error'); }
+      });
+
+      document.getElementById('notifForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = { notification_email: e.target.notification_email.checked, notification_sms: e.target.notification_sms.checked };
+        try {
+          await Portal.api('/me/profile', { method: 'PUT', body: data });
+          Portal.toast('Preferences saved', 'success');
+        } catch (err) { Portal.toast(err.message, 'error'); }
+      });
+
+      document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+        try {
+          await Portal.api('/me/password', { method: 'PUT', body: data });
+          Portal.toast('Password updated', 'success');
+          e.target.reset();
+        } catch (err) { Portal.toast(err.message, 'error'); }
+      });
+    })();
+  </script>
+</body>
+</html>

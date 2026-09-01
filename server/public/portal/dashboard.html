@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – Justice Law Firm Client Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'client', redirect: '/auth/login.html' });
+      if (!me) return;
+
+      let data;
+      try { data = await Portal.api('/cases'); } catch (e) { Portal.toast(e.message, 'error'); return; }
+
+      const user = me.user;
+      const activeCases = data.cases.filter(c => !['closed','won','lost'].includes(c.status));
+      const recentInvoices = data.invoices.slice(0, 3);
+      const dueInvoices = data.invoices.filter(i => i.status === 'pending' || i.status === 'overdue');
+      const totalDue = dueInvoices.reduce((sum, i) => sum + Number(i.amount), 0);
+      const openTickets = data.tickets.filter(t => t.status !== 'closed' && t.status !== 'resolved');
+
+      renderShell({
+        activeKey: 'dashboard',
+        title: 'Welcome back, ' + (user.first_name || ''),
+        role: 'client',
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>Client Dashboard</h2>
+              <div class="subtitle">Account #${user.id} · Member since ${Portal.fmtDate(user.created_at)}</div>
+            </div>
+            <a href="/portal/tickets.html" class="btn btn-gold"><i class="fas fa-plus"></i> New Support Ticket</a>
+          </div>
+
+          <div class="grid grid-4 mb-3">
+            <div class="stat">
+              <div class="icon"><i class="fas fa-folder-open"></i></div>
+              <div>
+                <div class="value">${activeCases.length}</div>
+                <div class="label">Active Cases</div>
+                <div class="delta">${data.cases.length} total</div>
+              </div>
+            </div>
+            <div class="stat">
+              <div class="icon"><i class="fas fa-life-ring"></i></div>
+              <div>
+                <div class="value">${openTickets.length}</div>
+                <div class="label">Open Tickets</div>
+              </div>
+            </div>
+            <div class="stat">
+              <div class="icon"><i class="fas fa-file-invoice-dollar"></i></div>
+              <div>
+                <div class="value">${Portal.fmtMoney(totalDue)}</div>
+                <div class="label">Balance Due</div>
+                <div class="delta">${dueInvoices.length} pending invoice(s)</div>
+              </div>
+            </div>
+            <div class="stat">
+              <div class="icon"><i class="fas fa-shield-halved"></i></div>
+              <div>
+                <div class="value">${data.arCases.length}</div>
+                <div class="label">Asset Recovery</div>
+                <div class="delta">${data.arCases.filter(a => ['recovered'].includes(a.intake_status)).length} recovered</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-3">
+            <div class="card" style="grid-column: span 2">
+              <div class="card-title"><i class="fas fa-folder-open"></i> Active Cases
+                <span style="margin-left:auto"><a href="/portal/cases.html" class="btn btn-sm btn-ghost">View All <i class="fas fa-arrow-right"></i></a></span>
+              </div>
+              ${activeCases.length === 0 ? `
+                <div class="empty">
+                  <i class="fas fa-folder"></i>
+                  <h4>No active cases</h4>
+                  <p>When you engage us for legal services, your cases will appear here.</p>
+                  <a href="/#consultation" class="btn btn-gold">Request a Consultation</a>
+                </div>
+              ` : `
+                <div class="table-wrap">
+                  <table class="data">
+                    <thead><tr><th>Case #</th><th>Title</th><th>Type</th><th>Status</th><th>Attorney</th></tr></thead>
+                    <tbody>
+                      ${activeCases.slice(0, 5).map(c => `
+                        <tr>
+                          <td><a href="/portal/case-detail.html?id=${c.id}"><strong>${c.case_number}</strong></a></td>
+                          <td>${c.title}</td>
+                          <td>${c.service_category}</td>
+                          <td>${Portal.statusBadge(c.status)}</td>
+                          <td>${c.attorney_first ? `${c.attorney_first} ${c.attorney_last}` : '—'}</td>
+                        </tr>
+                      `).join('')}
+                    </tbody>
+                  </table>
+                </div>
+              `}
+            </div>
+
+            <div class="card">
+              <div class="card-title"><i class="fas fa-file-invoice-dollar"></i> Recent Invoices</div>
+              ${recentInvoices.length === 0 ? '<div class="empty"><p>No invoices yet</p></div>' : `
+                <div style="display:flex; flex-direction:column; gap:10px">
+                  ${recentInvoices.map(i => `
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border)">
+                      <div>
+                        <strong style="color:#fff">${i.invoice_number}</strong>
+                        <div class="muted" style="font-size:11px">Due ${Portal.fmtDate(i.due_date)}</div>
+                      </div>
+                      <div style="text-align:right">
+                        <strong style="color:#fff">${Portal.fmtMoney(i.amount)}</strong><br>
+                        ${Portal.statusBadge(i.status)}
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+                <a href="/portal/billing.html" class="btn btn-ghost btn-sm" style="margin-top:12px">View all invoices <i class="fas fa-arrow-right"></i></a>
+              `}
+            </div>
+          </div>
+
+          <div class="card mt-2" style="background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.02)); border-color: rgba(201,168,76,0.3)">
+            <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap">
+              <div style="font-size:36px; color: var(--gold)"><i class="fas fa-shield-halved"></i></div>
+              <div style="flex:1; min-width:200px">
+                <h3 style="margin-bottom:4px">Victim of an online scam?</h3>
+                <p class="muted" style="margin:0">Our specialized digital asset recovery team helps victims of cryptocurrency fraud, romance scams, phishing, and other online theft. Submit a case in minutes.</p>
+              </div>
+              <a href="/portal/asset-recovery.html" class="btn btn-gold">File an Asset Recovery Case</a>
+            </div>
+          </div>
+        `
+      });
+    })();
+  </script>
+</body>
+</html>

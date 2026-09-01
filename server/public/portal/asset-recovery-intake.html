@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File Asset Recovery Case – Justice Law Firm</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'client', redirect: '/auth/login.html' });
+      if (!me) return;
+
+      renderShell({
+        activeKey: 'asset', title: 'File Asset Recovery Case', role: 'client',
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>File a Digital Asset Recovery Case</h2>
+              <div class="subtitle">Provide as much detail as possible. The more information you share, the better we can help.</div>
+            </div>
+            <a href="/portal/asset-recovery.html" class="btn"><i class="fas fa-arrow-left"></i> Back</a>
+          </div>
+
+          <form id="intakeForm" enctype="multipart/form-data">
+            <div class="card">
+              <div class="card-title"><i class="fas fa-circle-info"></i> Incident Details</div>
+              <div class="form-row two">
+                <div class="field">
+                  <label>Type of Incident *</label>
+                  <select name="incident_type" required>
+                    <option value="">— Select —</option>
+                    <option value="crypto_scam">Cryptocurrency Investment Scam</option>
+                    <option value="romance_scam">Romance / Pig-Butchering Scam</option>
+                    <option value="investment_scam">Other Investment Fraud</option>
+                    <option value="phishing">Phishing / Account Takeover</option>
+                    <option value="ransomware">Ransomware Attack</option>
+                    <option value="wallet_theft">Wallet / Private Key Theft</option>
+                    <option value="exchange_fraud">Exchange Fraud or Collapse</option>
+                    <option value="fake_ico">Fake ICO / Token Sale</option>
+                    <option value="other_digital_asset">Other Digital Asset Loss</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Scam Platform / Website / App Name</label>
+                  <input name="scam_platform" placeholder="e.g., BitConnect, CryptoUniverse, etc." />
+                </div>
+              </div>
+              <div class="form-row two">
+                <div class="field"><label>Date of Incident *</label><input type="date" name="scam_date" required /></div>
+                <div class="field">
+                  <label>Amount Lost *</label>
+                  <div class="flex gap-1">
+                    <input name="amount_lost" type="number" step="0.01" min="0" required placeholder="0.00" style="flex:2" />
+                    <select name="currency" style="flex:1; max-width:120px">
+                      <option value="USD">USD</option><option value="EUR">EUR</option>
+                      <option value="GBP">GBP</option><option value="BTC">BTC</option>
+                      <option value="ETH">ETH</option><option value="USDT">USDT</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row two">
+                <div class="field">
+                  <label>Payment Method Used</label>
+                  <select name="payment_method">
+                    <option value="">—</option>
+                    <option>Bitcoin</option><option>Ethereum</option><option>USDT</option>
+                    <option>Wire Transfer</option><option>Credit Card</option>
+                    <option>Gift Card</option><option>Cash App</option><option>PayPal</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Did you file a police report?</label>
+                  <div class="field-row-check" style="margin-top:8px">
+                    <input type="checkbox" id="police" name="has_police_report" />
+                    <label for="police" style="text-transform:none; letter-spacing:0; font-weight:500; color:#e6e8eb; font-size:13px">Yes, I have filed (or will file) a police report</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mt-2">
+              <div class="card-title"><i class="fas fa-link"></i> Blockchain / Transaction Details</div>
+              <p class="card-subtle mb-2">If applicable, please provide wallet addresses, transaction hashes, and exchange names. This helps our investigators trace the funds.</p>
+              <div class="form-row two">
+                <div class="field"><label>Your Wallet Address (sender)</label><input name="wallet_address" placeholder="bc1q... or 0x..." /></div>
+                <div class="field"><label>Transaction Hash / ID</label><input name="transaction_hash" placeholder="0x... or alphanumeric" /></div>
+              </div>
+              <div class="form-row two">
+                <div class="field">
+                  <label>Blockchain</label>
+                  <select name="blockchain">
+                    <option value="">—</option>
+                    <option>Bitcoin</option><option>Ethereum</option><option>BNB Chain</option>
+                    <option>Polygon</option><option>Solana</option><option>Tron</option>
+                    <option>Other</option><option>N/A</option>
+                  </select>
+                </div>
+                <div class="field"><label>Exchange Involved (if any)</label><input name="exchange_name" placeholder="Coinbase, Binance, Kraken..." /></div>
+              </div>
+              <div class="field">
+                <label>Suspect / Scammer Information</label>
+                <textarea name="suspect_info" rows="3" placeholder="Names, profiles, contact info, wallet addresses, anything you know about the scammer(s)"></textarea>
+              </div>
+            </div>
+
+            <div class="card mt-2">
+              <div class="card-title"><i class="fas fa-file-lines"></i> Evidence &amp; Description</div>
+              <div class="field">
+                <label>Describe what happened</label>
+                <textarea name="evidence_description" rows="5" placeholder="Provide a detailed narrative: how you were contacted, what they promised, how funds were sent, any communications, etc."></textarea>
+              </div>
+              <div class="field">
+                <label>Upload Evidence (up to 5 files, 15MB each)</label>
+                <input type="file" name="evidence_files" multiple accept="image/*,.pdf,.txt,.doc,.docx" />
+                <span class="hint">Screenshots of conversations, transaction receipts, emails, police reports, etc.</span>
+              </div>
+            </div>
+
+            <div class="alert info mt-2">
+              <i class="fas fa-lock"></i>
+              <strong>Confidential.</strong> All information you provide is protected by attorney-client privilege where applicable and stored securely.
+            </div>
+
+            <div class="flex gap-1 mt-2">
+              <a href="/portal/asset-recovery.html" class="btn">Cancel</a>
+              <button type="submit" class="btn btn-gold btn-lg"><i class="fas fa-paper-plane"></i> Submit Case</button>
+            </div>
+          </form>
+        `
+      });
+
+      document.getElementById('intakeForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const fd = new FormData(form);
+        const btn = form.querySelector('button[type=submit]');
+        btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Submitting...';
+        try {
+          const res = await fetch('/api/asset-recovery/intake', {
+            method: 'POST', body: fd, credentials: 'include'
+          });
+          const body = await res.json();
+          if (!res.ok) throw new Error(body.error || 'Failed to submit');
+          Portal.toast(`Case ${body.case_number} submitted!`, 'success');
+          setTimeout(() => window.location.href = '/portal/asset-recovery.html?id=' + body.id, 1200);
+        } catch (err) {
+          Portal.toast(err.message, 'error');
+          btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Case';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

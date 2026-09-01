@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Dashboard – Justice Law Firm</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'employee', redirect: '/auth/employee-login.html' });
+      if (!me) return;
+      const u = me.user;
+      const isAdmin = u.role === 'admin';
+      const role = isAdmin ? 'admin' : 'employee';
+
+      let data;
+      try { data = await Portal.api('/employee/dashboard'); } catch (e) { Portal.toast(e.message, 'error'); return; }
+
+      const roleLabels = {
+        attorney: 'Attorney',
+        paralegal: 'Paralegal',
+        receptionist: 'Receptionist',
+        investigator: 'Investigator',
+        admin: 'Administrator'
+      };
+
+      renderShell({
+        activeKey: 'dashboard', title: 'Workspace — ' + (roleLabels[u.role] || u.role), role,
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>Welcome, ${u.first_name}</h2>
+              <div class="subtitle">${u.title || roleLabels[u.role]} · ${u.department || 'Justice Law Firm'}</div>
+            </div>
+            <div class="flex gap-1">
+              ${u.role === 'investigator' ? '<a href="/employee/asset-recovery.html" class="btn"><i class="fas fa-shield-halved"></i> Recovery Queue</a>' : ''}
+              ${u.role === 'receptionist' ? '<a href="/employee/intake.html" class="btn"><i class="fas fa-inbox"></i> Intake Inbox</a>' : ''}
+              <a href="/employee/tickets.html" class="btn btn-gold"><i class="fas fa-life-ring"></i> Open Tickets</a>
+            </div>
+          </div>
+
+          <div class="grid grid-4 mb-3">
+            <div class="stat">
+              <div class="icon"><i class="fas fa-folder-open"></i></div>
+              <div><div class="value">${data.base_stats.open_cases}</div><div class="label">Open Cases (Firm)</div></div>
+            </div>
+            <div class="stat">
+              <div class="icon"><i class="fas fa-life-ring"></i></div>
+              <div><div class="value">${data.base_stats.open_tickets}</div><div class="label">Open Tickets</div></div>
+            </div>
+            <div class="stat">
+              <div class="icon"><i class="fas fa-inbox"></i></div>
+              <div><div class="value">${data.base_stats.consultations_new + data.base_stats.contacts_new}</div><div class="label">New Inquiries</div></div>
+            </div>
+            <div class="stat">
+              <div class="icon"><i class="fas fa-shield-halved"></i></div>
+              <div><div class="value">${data.base_stats.ar_open}</div><div class="label">Active Asset Recovery</div></div>
+            </div>
+          </div>
+
+          ${Object.keys(data.role_stats).length > 0 ? `
+            <div class="grid grid-4 mb-3">
+              ${Object.entries(data.role_stats).map(([k, v]) => `
+                <div class="stat" style="background: linear-gradient(135deg, rgba(201,168,76,0.08), transparent); border-color: rgba(201,168,76,0.3)">
+                  <div class="icon"><i class="fas fa-user-check"></i></div>
+                  <div><div class="value">${typeof v === 'number' && v > 1000 ? Portal.fmtMoney(v) : v}</div><div class="label">${k.replace(/_/g,' ')}</div></div>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+
+          <div class="grid grid-2">
+            <div class="card">
+              <div class="card-title"><i class="fas fa-inbox"></i> Recent Inquiries</div>
+              ${data.recent_consults.length === 0 ? '<div class="muted">No inquiries yet</div>' : `
+                <div class="scroll-area" style="display:flex; flex-direction:column; gap:10px">
+                  ${data.recent_consults.slice(0, 5).map(c => `
+                    <div style="padding:10px 0; border-bottom:1px solid var(--border)">
+                      <div class="flex justify-between items-center mb-1">
+                        <strong style="color:#fff">${c.name}</strong>
+                        ${Portal.statusBadge(c.practice_area || 'general')}
+                      </div>
+                      <div class="muted" style="font-size:12px; line-height:1.5">${(c.message || '').slice(0, 110)}${(c.message||'').length > 110 ? '...' : ''}</div>
+                      <div class="muted" style="font-size:10px; margin-top:4px">${Portal.fmtDateTime(c.created_at)}</div>
+                    </div>
+                  `).join('')}
+                </div>
+              `}
+            </div>
+            <div class="card">
+              <div class="card-title"><i class="fas fa-life-ring"></i> Recent Tickets</div>
+              ${data.recent_tickets.length === 0 ? '<div class="muted">No tickets yet</div>' : `
+                <div class="scroll-area" style="display:flex; flex-direction:column; gap:10px">
+                  ${data.recent_tickets.map(t => `
+                    <div style="padding:10px 0; border-bottom:1px solid var(--border)">
+                      <div class="flex justify-between items-center mb-1">
+                        <strong style="color:#fff">${t.ticket_number} — ${t.subject}</strong>
+                        ${Portal.statusBadge(t.status)}
+                      </div>
+                      <div class="muted" style="font-size:10px">${Portal.fmtDateTime(t.updated_at)}</div>
+                    </div>
+                  `).join('')}
+                </div>
+              `}
+            </div>
+          </div>
+        `
+      });
+    })();
+  </script>
+</body>
+</html>

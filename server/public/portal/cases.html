@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Cases – Justice Law Firm Client Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'client', redirect: '/auth/login.html' });
+      if (!me) return;
+      let data;
+      try { data = await Portal.api('/cases'); } catch (e) { Portal.toast(e.message, 'error'); return; }
+
+      renderShell({
+        activeKey: 'cases', title: 'My Cases', role: 'client',
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>My Cases</h2>
+              <div class="subtitle">All matters our firm is handling on your behalf</div>
+            </div>
+          </div>
+
+          ${data.cases.length === 0 ? `
+            <div class="card">
+              <div class="empty">
+                <i class="fas fa-folder-open"></i>
+                <h4>You have no cases yet</h4>
+                <p>Once you engage our firm, your cases will appear here with full timelines and attorney contact details.</p>
+                <a href="/#consultation" class="btn btn-gold">Request a Consultation</a>
+              </div>
+            </div>
+          ` : `
+            <div class="card">
+              <div class="table-wrap">
+                <table class="data">
+                  <thead><tr>
+                    <th>Case Number</th><th>Title</th><th>Practice Area</th><th>Status</th><th>Priority</th>
+                    <th>Attorney</th><th>Opened</th><th></th>
+                  </tr></thead>
+                  <tbody>
+                    ${data.cases.map(c => `
+                      <tr>
+                        <td><strong>${c.case_number}</strong></td>
+                        <td>${c.title}</td>
+                        <td>${c.service_category}</td>
+                        <td>${Portal.statusBadge(c.status)}</td>
+                        <td>${Portal.priorityBadge(c.priority)}</td>
+                        <td>${c.attorney_first ? `${c.attorney_first} ${c.attorney_last}` : '—'}</td>
+                        <td class="muted">${Portal.fmtDate(c.opened_at)}</td>
+                        <td><a href="/portal/case-detail.html?id=${c.id}" class="btn btn-sm">View Timeline</a></td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `}
+        `
+      });
+    })();
+  </script>
+</body>
+</html>

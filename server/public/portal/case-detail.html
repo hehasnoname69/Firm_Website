@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case – Justice Law Firm Client Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'client', redirect: '/auth/login.html' });
+      if (!me) return;
+      const id = getQueryParam('id');
+      if (!id) { window.location.href = '/portal/cases.html'; return; }
+
+      let data;
+      try { data = await Portal.api('/cases/' + id); } catch (e) { Portal.toast(e.message, 'error'); return; }
+      const c = data.case;
+      const events = data.events;
+
+      renderShell({
+        activeKey: 'cases', title: `Case ${c.case_number}`, role: 'client',
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>${c.title}</h2>
+              <div class="subtitle">${c.case_number} · ${c.service_category} · Opened ${Portal.fmtDate(c.opened_at)}</div>
+            </div>
+            <a href="/portal/cases.html" class="btn"><i class="fas fa-arrow-left"></i> Back to Cases</a>
+          </div>
+
+          <div class="grid grid-3 mb-2">
+            <div class="stat">
+              <div class="icon"><i class="fas fa-info-circle"></i></div>
+              <div><div class="value" style="font-size:16px">${Portal.statusBadge(c.status)}</div><div class="label">Current Status</div></div>
+            </div>
+            <div class="stat">
+              <div class="icon"><i class="fas fa-flag"></i></div>
+              <div><div class="value" style="font-size:16px">${Portal.priorityBadge(c.priority)}</div><div class="label">Priority</div></div>
+            </div>
+            <div class="stat">
+              <div class="icon"><i class="fas fa-user-tie"></i></div>
+              <div>
+                <div class="value" style="font-size:14px">${c.attorney_first ? `${c.attorney_first} ${c.attorney_last}` : 'Unassigned'}</div>
+                <div class="label">Assigned Attorney</div>
+                ${c.attorney_email ? `<div class="delta"><a href="mailto:${c.attorney_email}">${c.attorney_email}</a></div>` : ''}
+              </div>
+            </div>
+          </div>
+
+          <div class="card mb-2">
+            <div class="card-title"><i class="fas fa-file-lines"></i> Case Description</div>
+            <p style="line-height:1.7">${c.description || '<span class="muted">No description provided.</span>'}</p>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fas fa-timeline"></i> Case Timeline</div>
+            ${events.length === 0 ? '<div class="empty"><p>No events yet. We will update you here as your case progresses.</p></div>' : `
+              <div class="timeline">
+                ${events.map(e => `
+                  <div class="timeline-item ${e.author_type}">
+                    <div class="t-date">${Portal.fmtDateTime(e.created_at)}</div>
+                    <div class="t-title">${e.title}</div>
+                    ${e.details ? `<div class="t-details">${e.details}</div>` : ''}
+                    <div class="t-author">${e.event_type.replace(/_/g, ' ')} · by ${e.author_type === 'client' ? 'You' : 'Our team'}</div>
+                  </div>
+                `).join('')}
+              </div>
+            `}
+          </div>
+        `
+      });
+    })();
+  </script>
+</body>
+</html>

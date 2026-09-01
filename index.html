@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Justice Law Firm – Trusted Legal Advocates</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- ===== PARTICLES CANVAS ===== -->
+  <canvas id="particles"></canvas>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="logo">
+        <div class="logo-icon"><i class="fas fa-balance-scale"></i></div>
+        <div class="logo-text">
+          <span class="logo-title">JUSTICE</span>
+          <span class="logo-sub">LAW FIRM</span>
+        </div>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#home"            class="nav-link active">Home</a>
+        <div class="nav-dropdown">
+          <a href="#practice"      class="nav-link nav-link--drop">Practice Areas <i class="fas fa-chevron-down nav-chevron"></i></a>
+          <div class="nav-drop-panel">
+            <div class="ndp-list">
+              <a href="#practice" class="ndp-item"><i class="fas fa-users"></i><span>Family Law</span></a>
+              <a href="#practice" class="ndp-item"><i class="fas fa-hospital-user"></i><span>Personal Injury</span></a>
+              <a href="#practice" class="ndp-item"><i class="fas fa-home"></i><span>Real Estate Law</span></a>
+              <a href="#practice" class="ndp-item"><i class="fas fa-passport"></i><span>Immigration Law</span></a>
+              <a href="#practice" class="ndp-item"><i class="fas fa-lightbulb"></i><span>Intellectual Property</span></a>
+              <a href="#practice" class="ndp-item"><i class="fas fa-balance-scale-right"></i><span>Civil Law</span></a>
+              <a href="#asset-recovery" class="ndp-item" style="color:#ef4444"><i class="fas fa-shield-halved"></i><span>Asset Recovery (Digital)</span></a>
+            </div>
+          </div>
+        </div>
+        <a href="#attorneys"       class="nav-link">Attorneys</a>
+        <a href="#results"         class="nav-link">Case Results</a>
+        <a href="#blog"            class="nav-link">Blog</a>
+        <a href="about.html"       class="nav-link">About Us</a>
+        <a href="#contact-section" class="nav-link">Contact Us</a>
+        <a href="/auth/login.html" class="nav-link nav-link--login"><i class="fas fa-user"></i> Client Login</a>
+      </nav>
+      <div class="nav-cta-group">
+
+        <!-- ── Phone ghost button ── -->
+        <a href="#contact-section" class="btn-nav-ghost">
+          <span class="btn-ghost-icon-wrap">
+            <span class="btn-ghost-dot"></span>
+            <i class="fas fa-phone-alt"></i>
+          </span>
+          <span class="btn-ghost-body">
+            <span class="btn-ghost-label">CALL US NOW</span>
+            <span class="btn-ghost-number">(212) 555-7890</span>
+          </span>
+          <span class="btn-ghost-border-t"></span>
+          <span class="btn-ghost-border-r"></span>
+          <span class="btn-ghost-border-b"></span>
+          <span class="btn-ghost-border-l"></span>
+        </a>
+
+        <!-- ── Free Consultation CTA ── -->
+        <a href="#consultation" class="btn-nav-cta">
+          <span class="btn-cta-fill"></span>
+          <span class="btn-cta-corner"></span>
+          <span class="btn-cta-inner">
+            <span class="btn-cta-icon"><i class="fas fa-balance-scale"></i></span>
+            <span class="btn-cta-text">
+              <span class="btn-cta-top">FREE</span>
+              <span class="btn-cta-bottom">CONSULTATION</span>
+            </span>
+            <span class="btn-cta-chevron"><i class="fas fa-chevron-right"></i></span>
+          </span>
+        </a>
+
+      </div>
+      <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#home" class="mm-link"><i class="fas fa-home"></i><span>Home</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="#practice" class="mm-link"><i class="fas fa-briefcase"></i><span>Practice Areas</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="#attorneys" class="mm-link"><i class="fas fa-user-tie"></i><span>Attorneys</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="#results" class="mm-link"><i class="fas fa-trophy"></i><span>Case Results</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="#blog" class="mm-link"><i class="fas fa-newspaper"></i><span>Blog</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="about.html" class="mm-link"><i class="fas fa-info-circle"></i><span>About Us</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="#contact-section" class="mm-link"><i class="fas fa-envelope"></i><span>Contact Us</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="/auth/login.html" class="mm-link" style="color:#c9a84c"><i class="fas fa-user"></i><span>Client Login / Signup</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="/auth/employee-login.html" class="mm-link" style="color:rgba(255,255,255,0.5); font-size:12px"><i class="fas fa-user-tie"></i><span>Employee Login</span><i class="fas fa-chevron-right mm-arrow"></i></a>
+      <a href="#consultation" class="btn-nav-cta mobile-cta">
+        <i class="fas fa-calendar-check"></i> Free Consultation
+      </a>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="hero-bg-overlay"></div>
+    <div class="hero-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Fighting For Justice. Defending Your Rights.</p>
+      <h1 class="hero-title">
+        Trusted Legal<br />Advocates<br />
+        <span class="hero-typed-wrapper">
+          <span class="gold" id="typedText"></span>
+          <span class="typed-cursor">|</span>
+        </span>
+      </h1>
+      <p class="hero-desc">
+        We are committed to providing exceptional legal services with integrity,<br />
+        dedication, and results.
+      </p>
+      <div class="hero-buttons">
+        <a href="#consultation" class="btn-gold pulse-btn">
+          <i class="fas fa-calendar-check"></i> Get a Free Consultation
+        </a>
+        <a href="about.html" class="btn-outline">
+          <span class="play-ring"><i class="fas fa-play"></i></span> Learn More
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="stat-num" data-target="25">0</span><span>+</span><p>Years Experience</p></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="stat-num" data-target="1200">0</span><span>+</span><p>Cases Won</p></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="stat-num" data-target="98">0</span><span>%</span><p>Success Rate</p></div>
+      </div>
+    </div>
+    <div class="hero-image-wrap">
+      <div class="hero-img-glow"></div>
+      <img src="https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=700&q=80" alt="Lady Justice" class="hero-img" />
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll Down</span>
+      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    </div>
+  </section>
+
+  <!-- ===== TRUST BAR / ABOUT ===== -->
+  <section class="trust-bar" id="about">
+    <div class="trust-container">
+      <div class="trust-item" data-delay="0">
+        <div class="trust-icon-wrap"><i class="fas fa-user-tie"></i></div>
+        <div>
+          <strong>Experienced Attorneys</strong>
+          <span>Decades of Combined Expertise</span>
+        </div>
+      </div>
+      <div class="trust-item" data-delay="100">
+        <div class="trust-icon-wrap"><i class="fas fa-handshake"></i></div>
+        <div>
+          <strong>Personalized Approach</strong>
+          <span>Tailored Solutions for Your Case</span>
+        </div>
+      </div>
+      <div class="trust-item" data-delay="200">
+        <div class="trust-icon-wrap"><i class="fas fa-chart-line"></i></div>
+        <div>
+          <strong>Proven Track Record</strong>
+          <span>Successful Outcomes That Matter</span>
+        </div>
+      </div>
+      <div class="trust-item" data-delay="300">
+        <div class="trust-icon-wrap"><i class="fas fa-shield-alt"></i></div>
+        <div>
+          <strong>Client-Focused Service</strong>
+          <span>Your Goals, Our Priority</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRACTICE AREAS ===== -->
+  <section class="practice" id="practice">
+    <div class="section-container">
+      <p class="section-eyebrow">PRACTICE AREAS</p>
+      <h2 class="section-title">Comprehensive Legal Services</h2>
+      <div class="section-divider"><span class="divider-icon">⚖</span></div>
+      <div class="practice-grid">
+
+        <div class="practice-card" data-tilt>
+          <div class="practice-card-bg"></div>
+          <div class="practice-icon"><i class="fas fa-users"></i></div>
+          <h3>Family Law</h3>
+          <p>Divorce, child custody, adoption and other family matters handled with care and compassion.</p>
+          <a href="about.html#family-law" class="read-more">READ MORE <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="practice-card" data-tilt>
+          <div class="practice-card-bg"></div>
+          <div class="practice-icon"><i class="fas fa-hospital-user"></i></div>
+          <h3>Personal Injury</h3>
+          <p>Fighting for maximum compensation for injury and accident victims across New York.</p>
+          <a href="about.html#personal-injury" class="read-more">READ MORE <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="practice-card" data-tilt>
+          <div class="practice-card-bg"></div>
+          <div class="practice-icon"><i class="fas fa-home"></i></div>
+          <h3>Real Estate Law</h3>
+          <p>Property transactions, disputes, title issues and legal documentation expertise.</p>
+          <a href="about.html#real-estate" class="read-more">READ MORE <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="practice-card" data-tilt>
+          <div class="practice-card-bg"></div>
+          <div class="practice-icon"><i class="fas fa-passport"></i></div>
+          <h3>Immigration Law</h3>
+          <p>Visas, green cards, citizenship, deportation defense and asylum representation.</p>
+          <a href="about.html#immigration" class="read-more">READ MORE <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="practice-card featured-card" data-tilt>
+          <div class="practice-card-bg"></div>
+          <div class="featured-tag">New</div>
+          <div class="practice-icon"><i class="fas fa-lightbulb"></i></div>
+          <h3>Intellectual Property</h3>
+          <p>Patents, trademarks, copyrights, trade secrets and IP litigation protection.</p>
+          <a href="about.html#ip-law" class="read-more">READ MORE <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="practice-card featured-card" data-tilt>
+          <div class="practice-card-bg"></div>
+          <div class="featured-tag">New</div>
+          <div class="practice-icon"><i class="fas fa-balance-scale-right"></i></div>
+          <h3>Civil Law</h3>
+          <p>Civil disputes, contract breaches, tort claims and civil rights enforcement.</p>
+          <a href="about.html#civil-law" class="read-more">READ MORE <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="practice-card featured-asset" data-tilt>
+          <div class="practice-card-bg"></div>
+          <div class="featured-tag">Specialized</div>
+          <div class="practice-icon"><i class="fas fa-shield-halved"></i></div>
+          <h3>Asset Recovery (Digital)</h3>
+          <p>Victims of online scams, crypto fraud, and digital asset theft — we trace, recover, and litigate.</p>
+          <a href="#asset-recovery" class="read-more">REPORT A CASE <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ASSET RECOVERY FEATURE ===== -->
+  <section class="practice" id="asset-recovery" style="background:#0d1b2a; padding:80px 24px">
+    <div style="max-width:1200px; margin:0 auto; display:grid; grid-template-columns: 1fr 1fr; gap:64px; align-items:center">
+      <div>
+        <p class="section-eyebrow light" style="color:#c9a84c">SPECIALIZED SERVICE</p>
+        <h2 class="section-title light">Digital Asset Recovery &amp; Scam Victim Support</h2>
+        <div class="section-divider" style="justify-content:flex-start"><span class="divider-icon">⚖</span></div>
+        <p style="color:rgba(255,255,255,0.7); line-height:1.7; margin-bottom:24px">
+          Already reported to the police? <strong style="color:#fff">Now take it to the next level.</strong>
+          Our specialized team combines blockchain forensics, legal action, and international asset tracing to recover funds lost to:
+        </p>
+        <ul style="list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:24px">
+          <li style="color:#e6e8eb; font-size:13.5px"><i class="fas fa-check" style="color:#c9a84c; margin-right:8px"></i> Cryptocurrency investment scams</li>
+          <li style="color:#e6e8eb; font-size:13.5px"><i class="fas fa-check" style="color:#c9a84c; margin-right:8px"></i> Romance / pig-butchering scams</li>
+          <li style="color:#e6e8eb; font-size:13.5px"><i class="fas fa-check" style="color:#c9a84c; margin-right:8px"></i> Phishing &amp; account takeovers</li>
+          <li style="color:#e6e8eb; font-size:13.5px"><i class="fas fa-check" style="color:#c9a84c; margin-right:8px"></i> Ransomware attacks</li>
+          <li style="color:#e6e8eb; font-size:13.5px"><i class="fas fa-check" style="color:#c9a84c; margin-right:8px"></i> Wallet &amp; private key theft</li>
+          <li style="color:#e6e8eb; font-size:13.5px"><i class="fas fa-check" style="color:#c9a84c; margin-right:8px"></i> Fake ICOs &amp; token sales</li>
+          <li style="color:#e6e8eb; font-size:13.5px"><i class="fas fa-check" style="color:#c9a84c; margin-right:8px"></i> Wire fraud &amp; advance-fee scams</li>
+          <li style="color:#e6e8eb; font-size:13.5px"><i class="fas fa-check" style="color:#c9a84c; margin-right:8px"></i> Exchange fraud or collapse</li>
+        </ul>
+        <div style="background:rgba(201,168,76,0.08); border-left:3px solid #c9a84c; padding:16px 20px; margin-bottom:24px">
+          <strong style="color:#e8c96a; display:block; margin-bottom:6px">Free, confidential case review</strong>
+          <span style="color:rgba(255,255,255,0.7); font-size:13.5px; line-height:1.6">
+            Submit your case through our secure client portal. A specialist investigator will review it within 24 hours and advise on your recovery options — no obligation.
+          </span>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap">
+          <a href="/auth/signup.html" class="btn-gold pulse-btn" style="text-decoration:none"><i class="fas fa-shield-halved"></i> File a Recovery Case</a>
+          <a href="/auth/login.html" class="btn-outline" style="text-decoration:none"><i class="fas fa-user"></i> Already a client? Sign in</a>
+        </div>
+      </div>
+      <div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px">
+          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:24px 20px; text-align:center">
+            <i class="fas fa-search" style="color:#c9a84c; font-size:32px; margin-bottom:12px; display:block"></i>
+            <strong style="color:#fff; display:block; margin-bottom:6px">Blockchain Forensics</strong>
+            <span style="color:rgba(255,255,255,0.6); font-size:12.5px; line-height:1.5">We trace crypto across multiple chains to identify exit points and entities.</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:24px 20px; text-align:center">
+            <i class="fas fa-gavel" style="color:#c9a84c; font-size:32px; margin-bottom:12px; display:block"></i>
+            <strong style="color:#fff; display:block; margin-bottom:6px">Legal Action</strong>
+            <span style="color:rgba(255,255,255,0.6); font-size:12.5px; line-height:1.5">Civil suits, injunctions, asset freezes, and international cooperation.</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:24px 20px; text-align:center">
+            <i class="fas fa-handshake" style="color:#c9a84c; font-size:32px; margin-bottom:12px; display:block"></i>
+            <strong style="color:#fff; display:block; margin-bottom:6px">Exchange Liaison</strong>
+            <span style="color:rgba(255,255,255,0.6); font-size:12.5px; line-height:1.5">We work with major exchanges to freeze and recover funds where possible.</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:24px 20px; text-align:center">
+            <i class="fas fa-shield" style="color:#c9a84c; font-size:32px; margin-bottom:12px; display:block"></i>
+            <strong style="color:#fff; display:block; margin-bottom:6px">Confidential</strong>
+            <span style="color:rgba(255,255,255,0.6); font-size:12.5px; line-height:1.5">All cases handled with full attorney-client privilege and discretion.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ATTORNEYS ===== -->
+  <section class="attorneys" id="attorneys">
+    <div class="section-container">
+      <p class="section-eyebrow light">OUR ATTORNEYS</p>
+      <h2 class="section-title light">Meet Our Legal Experts</h2>
+      <div class="section-divider light-divider"><span class="divider-icon gold-icon">⚖</span></div>
+      <div class="attorneys-layout attorneys-layout-wide">
+        <div class="attorneys-grid attorneys-grid-6">
+
+          <div class="attorney-card">
+            <div class="attorney-img">
+              <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Robert Anderson" />
+              <div class="attorney-overlay">
+                <p class="atty-practice-badge"><i class="fas fa-users"></i> Family Law</p>
+                <p>Senior Partner, 22 years. NY Bar Association Family Law Chair.</p>
+                <a href="about.html#robert-anderson" class="btn-gold-sm">Full Profile</a>
+              </div>
+            </div>
+            <div class="attorney-info">
+              <h4>Robert Anderson</h4>
+              <span class="practice-tag">Family Law</span>
+              <p class="atty-title-label">Senior Partner</p>
+              <div class="attorney-social">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="attorney-card">
+            <div class="attorney-img">
+              <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80" alt="Michael Thompson" />
+              <div class="attorney-overlay">
+                <p class="atty-practice-badge"><i class="fas fa-hospital-user"></i> Personal Injury</p>
+                <p>Partner, 16 years. Recovered over $18M for accident victims.</p>
+                <a href="about.html#michael-thompson" class="btn-gold-sm">Full Profile</a>
+              </div>
+            </div>
+            <div class="attorney-info">
+              <h4>Michael Thompson</h4>
+              <span class="practice-tag">Personal Injury</span>
+              <p class="atty-title-label">Partner</p>
+              <div class="attorney-social">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="attorney-card">
+            <div class="attorney-img">
+              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Sarah Williams" />
+              <div class="attorney-overlay">
+                <p class="atty-practice-badge"><i class="fas fa-home"></i> Real Estate Law</p>
+                <p>Senior Associate, 11 years. Handled 900+ property transactions.</p>
+                <a href="about.html#sarah-williams" class="btn-gold-sm">Full Profile</a>
+              </div>
+            </div>
+            <div class="attorney-info">
+              <h4>Sarah Williams</h4>
+              <span class="practice-tag">Real Estate Law</span>
+              <p class="atty-title-label">Senior Associate</p>
+              <div class="attorney-social">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="attorney-card">
+            <div class="attorney-img">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Jennifer Morgan" />
+              <div class="attorney-overlay">
+                <p class="atty-practice-badge"><i class="fas fa-passport"></i> Immigration Law</p>
+                <p>Partner, 14 years. Secured status for 1,200+ clients across 40 nations.</p>
+                <a href="about.html#jennifer-morgan" class="btn-gold-sm">Full Profile</a>
+              </div>
+            </div>
+            <div class="attorney-info">
+              <h4>Jennifer Morgan</h4>
+              <span class="practice-tag">Immigration Law</span>
+              <p class="atty-title-label">Partner</p>
+              <div class="attorney-social">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="attorney-card">
+            <div class="attorney-img">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Daniel Park" />
+              <div class="attorney-overlay">
+                <p class="atty-practice-badge"><i class="fas fa-lightbulb"></i> Intellectual Property</p>
+                <p>Associate, 9 years. Former USPTO examiner. 300+ patents filed.</p>
+                <a href="about.html#daniel-park" class="btn-gold-sm">Full Profile</a>
+              </div>
+            </div>
+            <div class="attorney-info">
+              <h4>Daniel Park</h4>
+              <span class="practice-tag">IP Law</span>
+              <p class="atty-title-label">Associate Attorney</p>
+              <div class="attorney-social">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="attorney-card">
+            <div class="attorney-img">
+              <img src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400&q=80" alt="Amara Osei" />
+              <div class="attorney-overlay">
+                <p class="atty-practice-badge"><i class="fas fa-balance-scale-right"></i> Civil Law</p>
+                <p>Associate, 8 years. Civil rights and contract litigation specialist.</p>
+                <a href="about.html#amara-osei" class="btn-gold-sm">Full Profile</a>
+              </div>
+            </div>
+            <div class="attorney-info">
+              <h4>Amara Osei</h4>
+              <span class="practice-tag">Civil Law</span>
+              <p class="atty-title-label">Associate Attorney</p>
+              <div class="attorney-social">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="attorneys-cta">
+          <div class="cta-icon rotating-icon"><i class="fas fa-balance-scale"></i></div>
+          <h3>Dedicated to Excellence</h3>
+          <p>Six specialist attorneys — one for every practice area — each committed to delivering the best possible outcome for your case.</p>
+          <div class="cta-badges">
+            <span><i class="fas fa-award"></i> AV Rated</span>
+            <span><i class="fas fa-star"></i> Top 100</span>
+          </div>
+          <a href="about.html" class="btn-gold">MEET THE FULL TEAM</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RESULTS ===== -->
+  <section class="results-section" id="results">
+    <div class="results-inner">
+      <div class="results-text">
+        <p class="section-eyebrow">CASE RESULTS</p>
+        <h2 class="section-title">Proven Success Record</h2>
+        <div class="section-divider" style="justify-content:flex-start"><span class="divider-icon">⚖</span></div>
+        <p class="results-subtext">Every number below represents a real person whose life we helped change. We fight until the outcome is right.</p>
+        <a href="#contact-section" class="btn-dark" style="margin-top:8px">VIEW MORE RESULTS</a>
+      </div>
+      <div class="results-grid">
+        <div class="result-item">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <div>
+            <strong class="count-up" data-target="2500000" data-prefix="$" data-suffix=" M">$0</strong>
+            <span>Personal Injury Settlement</span>
+          </div>
+        </div>
+        <div class="result-item">
+          <i class="fas fa-heartbeat"></i>
+          <div>
+            <strong class="count-up" data-target="1800000" data-prefix="$" data-suffix=" M">$0</strong>
+            <span>Wrongful Death Settlement</span>
+          </div>
+        </div>
+        <div class="result-item">
+          <i class="fas fa-stethoscope"></i>
+          <div>
+            <strong class="count-up" data-target="950000" data-prefix="$" data-suffix="">$0</strong>
+            <span>Medical Malpractice</span>
+          </div>
+        </div>
+        <div class="result-item">
+          <i class="fas fa-car-crash"></i>
+          <div>
+            <strong class="count-up" data-target="750000" data-prefix="$" data-suffix="">$0</strong>
+            <span>Car Accident Settlement</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="testimonials-section" id="testimonials">
+
+    <!-- Background decoration -->
+    <div class="tsec-bg-quote">&ldquo;</div>
+
+    <div class="tsec-header">
+      <div class="tsec-header-left">
+        <div class="tsec-label">CLIENT TESTIMONIALS</div>
+        <h2 class="tsec-title">Trusted by Thousands.<br/><span class="gold">Proven in Court.</span></h2>
+      </div>
+      <div class="tsec-sub-block">
+        <div class="tsec-sub-rule"></div>
+        <p class="tsec-sub">
+          <i class="fas fa-quote-left tsec-sub-icon"></i>
+          Real stories from real clients<br>
+          <span class="tsec-sub-highlight">across every practice area.</span>
+        </p>
+        <div class="tsec-sub-stats">
+          <span><strong>10,000+</strong> clients served</span>
+          <span class="tsec-sub-sep">·</span>
+          <span><strong>98%</strong> satisfaction rate</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 1 — scrolls LEFT -->
+    <div class="marquee-outer" id="marqueeOuter1">
+      <div class="marquee-track marquee-left" id="marqueeTrack1">
+
+        <!-- SET 1 -->
+        <div class="mcard">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-hospital-user"></i> Personal Injury</div>
+          </div>
+          <p class="mcard-quote">"The team at Justice Law Firm was professional, compassionate, and dedicated. They fought for my rights and achieved a result far beyond my expectations."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">DJ</div>
+            <div class="mcard-meta"><strong>David Johnson</strong><span>New York, NY</span></div>
+          </div>
+        </div>
+
+        <div class="mcard mcard--accent">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-users"></i> Family Law</div>
+          </div>
+          <p class="mcard-quote">"Outstanding representation. They guided our family through an incredibly painful divorce with grace and focus. I felt protected every single step of the way."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">MG</div>
+            <div class="mcard-meta"><strong>Maria Gonzalez</strong><span>Brooklyn, NY</span></div>
+          </div>
+        </div>
+
+        <div class="mcard">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-passport"></i> Immigration</div>
+          </div>
+          <p class="mcard-quote">"Justice Law Firm gave me my future back. Jennifer Morgan's knowledge and dedication are unmatched — I have my green card today because of her."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">JC</div>
+            <div class="mcard-meta"><strong>James Carter</strong><span>Queens, NY</span></div>
+          </div>
+        </div>
+
+        <div class="mcard">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-home"></i> Real Estate</div>
+          </div>
+          <p class="mcard-quote">"Sarah handled over 900 transactions — and mine felt like the only one that mattered. Flawless closing, zero surprises. She's the best in the business."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">LH</div>
+            <div class="mcard-meta"><strong>Linda Harris</strong><span>Manhattan, NY</span></div>
+          </div>
+        </div>
+
+        <div class="mcard mcard--accent">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-lightbulb"></i> IP Law</div>
+          </div>
+          <p class="mcard-quote">"Daniel Park secured our software patent in record time. His technical background means he truly understands what he's protecting — a genuinely rare quality."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">AK</div>
+            <div class="mcard-meta"><strong>Aisha Khan</strong><span>San Francisco, CA</span></div>
+          </div>
+        </div>
+
+        <!-- SET 2 — exact duplicate for seamless infinite loop -->
+        <div class="mcard" aria-hidden="true">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-hospital-user"></i> Personal Injury</div>
+          </div>
+          <p class="mcard-quote">"The team at Justice Law Firm was professional, compassionate, and dedicated. They fought for my rights and achieved a result far beyond my expectations."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">DJ</div>
+            <div class="mcard-meta"><strong>David Johnson</strong><span>New York, NY</span></div>
+          </div>
+        </div>
+
+        <div class="mcard mcard--accent" aria-hidden="true">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-users"></i> Family Law</div>
+          </div>
+          <p class="mcard-quote">"Outstanding representation. They guided our family through an incredibly painful divorce with grace and focus. I felt protected every single step of the way."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">MG</div>
+            <div class="mcard-meta"><strong>Maria Gonzalez</strong><span>Brooklyn, NY</span></div>
+          </div>
+        </div>
+
+        <div class="mcard" aria-hidden="true">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-passport"></i> Immigration</div>
+          </div>
+          <p class="mcard-quote">"Justice Law Firm gave me my future back. Jennifer Morgan's knowledge and dedication are unmatched — I have my green card today because of her."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">JC</div>
+            <div class="mcard-meta"><strong>James Carter</strong><span>Queens, NY</span></div>
+          </div>
+        </div>
+
+        <div class="mcard" aria-hidden="true">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-home"></i> Real Estate</div>
+          </div>
+          <p class="mcard-quote">"Sarah handled over 900 transactions — and mine felt like the only one that mattered. Flawless closing, zero surprises. She's the best in the business."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">LH</div>
+            <div class="mcard-meta"><strong>Linda Harris</strong><span>Manhattan, NY</span></div>
+          </div>
+        </div>
+
+        <div class="mcard mcard--accent" aria-hidden="true">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-lightbulb"></i> IP Law</div>
+          </div>
+          <p class="mcard-quote">"Daniel Park secured our software patent in record time. His technical background means he truly understands what he's protecting — a genuinely rare quality."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">AK</div>
+            <div class="mcard-meta"><strong>Aisha Khan</strong><span>San Francisco, CA</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Row 2 — scrolls RIGHT -->
+    <div class="marquee-outer" id="marqueeOuter2">
+      <div class="marquee-track marquee-right" id="marqueeTrack2">
+
+        <!-- SET 1 -->
+        <div class="mcard">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-hospital-user"></i> Personal Injury</div>
+          </div>
+          <p class="mcard-quote">"Michael Thompson recovered more than I thought possible. He genuinely cared about my recovery, not just the settlement figure. A true advocate."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">RB</div>
+            <div class="mcard-meta"><strong>Raymond Brooks</strong><span>The Bronx, NY</span></div>
+          </div>
+        </div>
+
+        <div class="mcard mcard--accent">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-balance-scale-right"></i> Civil Law</div>
+          </div>
+          <p class="mcard-quote">"Amara Osei took on our employment discrimination case when others turned us away. Her courtroom presence is commanding. She changed our lives."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">TO</div>
+            <div class="mcard-meta"><strong>Tunde Okafor</strong><span>Newark, NJ</span></div>
+          </div>
+        </div>
+
+        <div class="mcard">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-users"></i> Family Law</div>
+          </div>
+          <p class="mcard-quote">"Robert handled our divorce with dignity and focused entirely on what was best for our children. Truly exceptional counsel in the hardest season of my life."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">SP</div>
+            <div class="mcard-meta"><strong>Sandra Peterson</strong><span>Staten Island, NY</span></div>
+          </div>
+        </div>
+
+        <div class="mcard">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-passport"></i> Immigration</div>
+          </div>
+          <p class="mcard-quote">"I had almost given up hope. Jennifer Morgan turned everything around with encyclopaedic knowledge and a fight in her that never wavered. Forever grateful."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">FN</div>
+            <div class="mcard-meta"><strong>Fatima Ndiaye</strong><span>Jersey City, NJ</span></div>
+          </div>
+        </div>
+
+        <div class="mcard mcard--accent">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-balance-scale-right"></i> Civil Law</div>
+          </div>
+          <p class="mcard-quote">"Amara resolved our contract dispute quickly and cost-effectively. Her strategic thinking saved us from a brutal legal battle. Worth every single penny."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">CM</div>
+            <div class="mcard-meta"><strong>Carlos Mendez</strong><span>Hoboken, NJ</span></div>
+          </div>
+        </div>
+
+        <!-- SET 2 — exact duplicate for seamless infinite loop -->
+        <div class="mcard" aria-hidden="true">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-hospital-user"></i> Personal Injury</div>
+          </div>
+          <p class="mcard-quote">"Michael Thompson recovered more than I thought possible. He genuinely cared about my recovery, not just the settlement figure. A true advocate."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">RB</div>
+            <div class="mcard-meta"><strong>Raymond Brooks</strong><span>The Bronx, NY</span></div>
+          </div>
+        </div>
+
+        <div class="mcard mcard--accent" aria-hidden="true">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-balance-scale-right"></i> Civil Law</div>
+          </div>
+          <p class="mcard-quote">"Amara Osei took on our employment discrimination case when others turned us away. Her courtroom presence is commanding. She changed our lives."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">TO</div>
+            <div class="mcard-meta"><strong>Tunde Okafor</strong><span>Newark, NJ</span></div>
+          </div>
+        </div>
+
+        <div class="mcard" aria-hidden="true">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-users"></i> Family Law</div>
+          </div>
+          <p class="mcard-quote">"Robert handled our divorce with dignity and focused entirely on what was best for our children. Truly exceptional counsel in the hardest season of my life."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">SP</div>
+            <div class="mcard-meta"><strong>Sandra Peterson</strong><span>Staten Island, NY</span></div>
+          </div>
+        </div>
+
+        <div class="mcard" aria-hidden="true">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-passport"></i> Immigration</div>
+          </div>
+          <p class="mcard-quote">"I had almost given up hope. Jennifer Morgan turned everything around with encyclopaedic knowledge and a fight in her that never wavered. Forever grateful."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">FN</div>
+            <div class="mcard-meta"><strong>Fatima Ndiaye</strong><span>Jersey City, NJ</span></div>
+          </div>
+        </div>
+
+        <div class="mcard mcard--accent" aria-hidden="true">
+          <div class="mcard-top">
+            <div class="mcard-stars">★★★★★</div>
+            <div class="mcard-area"><i class="fas fa-balance-scale-right"></i> Civil Law</div>
+          </div>
+          <p class="mcard-quote">"Amara resolved our contract dispute quickly and cost-effectively. Her strategic thinking saved us from a brutal legal battle. Worth every single penny."</p>
+          <div class="mcard-author">
+            <div class="mcard-avatar">CM</div>
+            <div class="mcard-meta"><strong>Carlos Mendez</strong><span>Hoboken, NJ</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CTA strip -->
+    <div class="tsec-cta">
+      <a href="index.html#consultation" class="btn-gold pulse-btn">
+        <i class="fas fa-calendar-check"></i> Get Your Free Consultation
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ===== CONSULTATION FORM ===== -->
+  <section class="consultation" id="consultation">
+    <div class="consult-overlay"></div>
+    <div class="consultation-inner">
+      <div class="consultation-left">
+        <p class="section-eyebrow">FREE CONSULTATION</p>
+        <h2>Schedule Your<br /><span class="gold">Free Consultation</span></h2>
+        <p>Confidential consultation to discuss your case and explore your legal options. No fees until we win.</p>
+        <ul class="consult-features">
+          <li><i class="fas fa-check-circle"></i> No Obligation</li>
+          <li><i class="fas fa-check-circle"></i> Experienced Attorneys</li>
+          <li><i class="fas fa-check-circle"></i> 100% Confidential</li>
+          <li><i class="fas fa-check-circle"></i> Personalized Advice</li>
+        </ul>
+        <div class="consult-phone">
+          <i class="fas fa-phone-volume fa-spin-slow"></i>
+          <div>
+            <span>Call Us Now</span>
+            <strong>(212) 555-7890</strong>
+          </div>
+        </div>
+      </div>
+      <div class="consultation-right">
+        <form class="consult-form" id="consultForm">
+          <h3>Get In Touch</h3>
+          <div class="form-row">
+            <div class="input-wrap">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Full Name" required />
+            </div>
+            <div class="input-wrap">
+              <i class="fas fa-envelope"></i>
+              <input type="email" placeholder="Email Address" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="input-wrap">
+              <i class="fas fa-phone"></i>
+              <input type="tel" placeholder="Phone Number" />
+            </div>
+            <div class="input-wrap">
+              <i class="fas fa-briefcase"></i>
+              <select>
+                <option value="" disabled selected>Practice Area</option>
+                <option>Family Law</option>
+                <option>Personal Injury</option>
+                <option>Real Estate Law</option>
+                <option>Immigration Law</option>
+                <option>Intellectual Property</option>
+                <option>Civil Law</option>
+                <option>Asset Recovery (Digital)</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-wrap full">
+            <i class="fas fa-comment-dots"></i>
+            <textarea placeholder="Tell us about your case..." rows="4"></textarea>
+          </div>
+          <button type="submit" class="btn-gold full-width">
+            <i class="fas fa-paper-plane"></i> GET FREE CONSULTATION
+          </button>
+          <div class="form-success" id="formSuccess">
+            <i class="fas fa-check-circle"></i> Thank you! We'll be in touch shortly.
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BLOG + FAQ ===== -->
+  <section class="blog" id="blog">
+    <div class="blog-left">
+      <p class="section-eyebrow">LATEST FROM OUR BLOG</p>
+      <h2 class="section-title">Legal Insights &amp; News</h2>
+      <div class="section-divider"><span class="divider-icon">⚖</span></div>
+      <div class="blog-grid">
+        <div class="blog-card">
+          <div class="blog-img">
+            <img src="https://images.unsplash.com/photo-1589578527966-fdac0f44566c?w=500&q=80" alt="Car Accident Law" />
+            <div class="blog-category">Personal Injury</div>
+          </div>
+          <div class="blog-body">
+            <span class="blog-date"><i class="far fa-calendar-alt"></i> May 20, 2025</span>
+            <h4>What to Do After a Car Accident</h4>
+            <p>Act with integrity, diligence, and care. We are here to fight for your justice.</p>
+            <a href="#" class="read-more">READ MORE <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-img">
+            <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=500&q=80" alt="Divorce Rights" />
+            <div class="blog-category">Family Law</div>
+          </div>
+          <div class="blog-body">
+            <span class="blog-date"><i class="far fa-calendar-alt"></i> May 15, 2025</span>
+            <h4>Understanding Your Rights in Divorce</h4>
+            <p>Know your rights and how an attorney can help protect your interests.</p>
+            <a href="#" class="read-more">READ MORE <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-img">
+            <img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=500&q=80" alt="Immigration" />
+            <div class="blog-category">Immigration</div>
+          </div>
+          <div class="blog-body">
+            <span class="blog-date"><i class="far fa-calendar-alt"></i> May 10, 2025</span>
+            <h4>Navigating the U.S. Immigration Process</h4>
+            <p>A comprehensive guide to visas, green cards, and the path to citizenship.</p>
+            <a href="#" class="read-more">READ MORE <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:36px;">
+        <a href="#" class="btn-dark">VIEW ALL ARTICLES</a>
+      </div>
+    </div>
+    <div class="faq-right" id="faq">
+      <p class="section-eyebrow">FAQ</p>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="section-divider"><span class="divider-icon">⚖</span></div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">How much does it cost to hire a lawyer? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-answer"><p>Costs vary depending on case complexity. Many personal injury cases work on contingency — no fee unless we win. We offer a free consultation to discuss fees upfront.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What should I do after an accident? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-answer"><p>Seek medical attention immediately, document the scene, gather witness information, and contact our firm as soon as possible to protect your rights.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">How long will my case take? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-answer"><p>Case timelines vary based on complexity. Simple cases may resolve in months; complex litigation can take years. We keep you informed every step of the way.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Do you handle immigration cases? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-answer"><p>Yes! Our immigration team handles visas, green cards, citizenship applications, deportation defense, and asylum cases with expertise and compassion.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Do you offer free consultations? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-answer"><p>Absolutely. We offer a free, no-obligation initial consultation. Use the form above or call us directly to schedule your appointment today.</p></div>
+        </div>
+      </div>
+      <div style="margin-top:28px;">
+        <a href="#faq" class="btn-dark">VIEW ALL FAQS</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT SECTION ===== -->
+  <section class="contact-section" id="contact-section">
+    <div class="contact-header">
+      <p class="section-eyebrow light">GET IN TOUCH</p>
+      <h2 class="section-title light">Contact Us</h2>
+      <div class="section-divider light-divider"><span class="divider-icon gold-icon">⚖</span></div>
+      <p class="contact-sub">We are here to help. Reach out to us through any of the channels below and our team will respond promptly.</p>
+    </div>
+
+    <div class="contact-body">
+      <!-- Info Cards -->
+      <div class="contact-cards">
+        <div class="contact-card" data-delay="0">
+          <div class="contact-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <h4>Our Office</h4>
+          <p>123 Justice Boulevard, Suite 500<br />New York, NY 10001</p>
+        </div>
+        <div class="contact-card" data-delay="100">
+          <div class="contact-card-icon"><i class="fas fa-phone-alt"></i></div>
+          <h4>Telephone</h4>
+          <p><a href="tel:+12125557890">(212) 555-7890</a></p>
+          <p class="card-note">Mon–Fri, 9 AM – 6 PM</p>
+        </div>
+        <div class="contact-card" data-delay="200">
+          <div class="contact-card-icon"><i class="fas fa-fax"></i></div>
+          <h4>Fax</h4>
+          <p>(212) 555-7891</p>
+          <p class="card-note">Available 24/7</p>
+        </div>
+        <div class="contact-card" data-delay="300">
+          <div class="contact-card-icon"><i class="fas fa-envelope-open-text"></i></div>
+          <h4>Email</h4>
+          <p><a href="mailto:info@justicefirm.com">info@justicefirm.com</a></p>
+          <p class="card-note">We reply within 24 hours</p>
+        </div>
+      </div>
+
+      <!-- Map + Form -->
+      <div class="contact-map-form">
+        <div class="contact-map">
+          <div class="map-label"><i class="fas fa-map-pin"></i> Justice Law Firm — New York, NY</div>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d-74.00425878459418!3d40.74076787932841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bf5c1654f3%3A0xc80f9cfce5383d5d!2sMadison%20Square%20Garden!5e0!3m2!1sen!2sus!4v1621234567890!5m2!1sen!2sus"
+            width="100%"
+            height="380"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Justice Law Firm Location">
+          </iframe>
+          <div class="map-overlay-info">
+            <div class="map-info-item"><i class="fas fa-clock"></i> <span>Mon–Fri: 9:00 AM – 6:00 PM &nbsp;|&nbsp; Sat–Sun: Closed</span></div>
+          </div>
+        </div>
+
+        <div class="contact-form-wrap">
+          <h3>Send Us a Message</h3>
+          <p>Fill out the form and a member of our team will contact you shortly.</p>
+          <form class="contact-form" id="contactForm">
+            <div class="input-wrap">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Your Full Name" required />
+            </div>
+            <div class="input-wrap">
+              <i class="fas fa-envelope"></i>
+              <input type="email" placeholder="Your Email Address" required />
+            </div>
+            <div class="form-row-2">
+              <div class="input-wrap">
+                <i class="fas fa-phone"></i>
+                <input type="tel" placeholder="Phone Number" />
+              </div>
+              <div class="input-wrap">
+                <i class="fas fa-briefcase"></i>
+                <select>
+                  <option value="" disabled selected>Subject</option>
+                  <option>Family Law</option>
+                  <option>Personal Injury</option>
+                  <option>Real Estate Law</option>
+                  <option>Immigration Law</option>
+                  <option>Intellectual Property</option>
+                  <option>Civil Law</option>
+                  <option>General Inquiry</option>
+                </select>
+              </div>
+            </div>
+            <div class="input-wrap">
+              <i class="fas fa-comment-dots"></i>
+              <textarea placeholder="Your Message..." rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn-gold full-width">
+              <i class="fas fa-paper-plane"></i> SEND MESSAGE
+            </button>
+            <div class="form-success" id="contactFormSuccess">
+              <i class="fas fa-check-circle"></i> Message sent! We'll get back to you soon.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon"><i class="fas fa-balance-scale"></i></div>
+          <div class="logo-text">
+            <span class="logo-title">JUSTICE</span>
+            <span class="logo-sub">LAW FIRM</span>
+          </div>
+        </div>
+        <p>Providing exceptional legal services with integrity, dedication, and results. We are here to fight for your justice.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home"><i class="fas fa-angle-right"></i> Home</a></li>
+          <li><a href="about.html"><i class="fas fa-angle-right"></i> About Us</a></li>
+          <li><a href="#practice"><i class="fas fa-angle-right"></i> Practice Areas</a></li>
+          <li><a href="#attorneys"><i class="fas fa-angle-right"></i> Attorneys</a></li>
+          <li><a href="#results"><i class="fas fa-angle-right"></i> Case Results</a></li>
+          <li><a href="#blog"><i class="fas fa-angle-right"></i> Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Practice Areas</h4>
+        <ul>
+          <li><a href="#practice"><i class="fas fa-angle-right"></i> Family Law</a></li>
+          <li><a href="#practice"><i class="fas fa-angle-right"></i> Personal Injury</a></li>
+          <li><a href="#practice"><i class="fas fa-angle-right"></i> Real Estate Law</a></li>
+          <li><a href="#practice"><i class="fas fa-angle-right"></i> Immigration Law</a></li>
+          <li><a href="#practice"><i class="fas fa-angle-right"></i> Intellectual Property</a></li>
+          <li><a href="#practice"><i class="fas fa-angle-right"></i> Civil Law</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Info</h4>
+        <ul class="contact-list">
+          <li><i class="fas fa-map-marker-alt"></i><span>123 Justice Blvd, Suite 500<br />New York, NY 10001</span></li>
+          <li><i class="fas fa-phone"></i><a href="tel:+12125557890">(212) 555-7890</a></li>
+          <li><i class="fas fa-fax"></i><span>(212) 555-7891</span></li>
+          <li><i class="fas fa-envelope"></i><a href="mailto:info@justicefirm.com">info@justicefirm.com</a></li>
+          <li><i class="fas fa-clock"></i><span>Mon–Fri: 9:00 AM – 6:00 PM</span></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <p>Subscribe to our newsletter for legal insights and updates.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" placeholder="Your Email Address" required />
+          <button type="submit">SUBSCRIBE</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Justice Law Firm. All Rights Reserved. | Designed with integrity &amp; purpose.</p>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- Live Chat Bubble -->
+  <div class="chat-bubble" id="chatBubble">
+    <div class="chat-tooltip">Need help? Chat with us!</div>
+    <button class="chat-btn" id="chatBtn">
+      <i class="fas fa-comment-dots"></i>
+      <span class="chat-ping"></span>
+    </button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

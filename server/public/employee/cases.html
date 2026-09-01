@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cases – Justice Law Firm Employee Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/portal/portal.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="/portal/portal.js"></script>
+  <script>
+    (async function() {
+      const me = await Portal.init({ expectedType: 'employee', redirect: '/auth/employee-login.html' });
+      if (!me) return;
+      const isAdmin = me.user.role === 'admin';
+      const role = isAdmin ? 'admin' : 'employee';
+
+      let data;
+      try { data = await Portal.api('/employee/cases'); } catch (e) { Portal.toast(e.message, 'error'); return; }
+
+      renderShell({
+        activeKey: 'cases', title: 'Cases', role,
+        body: `
+          <div class="page-title">
+            <div>
+              <h2>${isAdmin || me.user.role === 'receptionist' ? 'All Cases' : 'My Cases'}</h2>
+              <div class="subtitle">${data.cases.length} case(s)</div>
+            </div>
+            <input type="search" id="searchCases" placeholder="Search by title, case #, client..." class="btn" style="background:var(--card-2); width:280px" />
+          </div>
+
+          ${data.cases.length === 0 ? `<div class="card"><div class="empty"><i class="fas fa-folder-open"></i><h4>No cases assigned</h4><p>Once clients are onboarded and cases are assigned to you, they will appear here.</p></div></div>` : `
+            <div class="card">
+              <div class="table-wrap">
+                <table class="data" id="casesTable">
+                  <thead><tr><th>Case #</th><th>Client</th><th>Title</th><th>Practice</th><th>Status</th><th>Priority</th><th>Opened</th><th></th></tr></thead>
+                  <tbody>
+                    ${data.cases.map(c => `
+                      <tr data-search="${(c.case_number + ' ' + c.title + ' ' + c.client_first + ' ' + c.client_last + ' ' + c.client_email + ' ' + c.service_category).toLowerCase()}">
+                        <td><strong>${c.case_number}</strong></td>
+                        <td>${c.client_first} ${c.client_last}<br><span class="muted" style="font-size:11px">${c.client_email}</span></td>
+                        <td>${c.title}</td>
+                        <td>${c.service_category}</td>
+                        <td>${Portal.statusBadge(c.status)}</td>
+                        <td>${Portal.priorityBadge(c.priority)}</td>
+                        <td class="muted">${Portal.fmtDate(c.opened_at)}</td>
+                        <td><button class="btn btn-sm" onclick="openCase(${c.id})">Open</button></td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `}
+
+          <div class="modal-backdrop" id="caseModal"></div>
+        `
+      });
+
+      const search = document.getElementById('searchCases');
+      if (search) search.addEventListener('input', () => {
+        const q = search.value.toLowerCase();
+        document.querySelectorAll('#casesTable tbody tr').forEach(r => {
+          r.style.display = r.dataset.search.includes(q) ? '' : 'none';
+        });
+      });
+
+      window.openCase = async (id) => {
+        const modal = document.getElementById('caseModal');
+        modal.classList.add('open');
+        modal.innerHTML = '<div class="modal" style="max-width:760px"><div class="modal-body"><div class="spinner"></div> Loading...</div></div>';
+        let d;
+        try { d = await Portal.api('/employee/cases/' + id); } catch (e) { Portal.toast(e.message, 'error'); return; }
+        const c = d.case;
+        const ev = d.events;
+        modal.innerHTML = `
+          <div class="modal" style="max-width:780px">
+            <div class="modal-header">
+              <div>
+                <h3>${c.title}</h3>
+                <div class="muted" style="font-size:12px">${c.case_number} · ${c.service_category} · ${Portal.statusBadge(c.status)}</div>
+              </div>
+              <button class="modal-close" onclick="closeCaseModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="grid grid-2 mb-2">
+                <div class="card" style="margin:0">
+                  <div class="card-subtle">Client</div>
+                  <div style="color:#fff; font-weight:700">${c.client_first} ${c.client_last}</div>
+                  <div class="muted" style="font-size:12px">${c.client_email} · ${c.client_phone || ''}</div>
+                </div>
+                <div class="card" style="margin:0">
+                  <div class="card-subtle">Attorney</div>
+                  <div style="color:#fff; font-weight:700">${c.atty_first ? c.atty_first + ' ' + c.atty_last : 'Unassigned'}</div>
+                </div>
+              </div>
+              <div class="card mb-2">
+                <div class="card-title">Description</div>
+                <p style="line-height:1.7">${c.description || '—'}</p>
+              </div>
+              <div class="card mb-2">
+                <div class="card-title">Add Update / Event</div>
+                <form id="addEventForm">
+                  <div class="form-row two">
+                    <div class="field"><label>Event Type</label>
+                      <select name="event_type">
+                        <option value="update">Update</option>
+                        <option value="filing">Filing</option>
+                        <option value="hearing">Hearing</option>
+                        <option value="document">Document</option>
+                        <option value="communication">Communication</option>
+                        <option value="status">Status Change</option>
+                      </select>
+                    </div>
+                    <div class="field"><label>Title</label><input name="title" required placeholder="e.g., Filed motion to compel" /></div>
+                  </div>
+                  <div class="field"><label>Details</label><textarea name="details" rows="3" placeholder="Additional information..."></textarea></div>
+                  <button type="submit" class="btn btn-gold"><i class="fas fa-plus"></i> Add Event</button>
+                </form>
+              </div>
+              <div class="card">
+                <div class="card-title">Timeline</div>
+                ${ev.length === 0 ? '<div class="muted">No events yet</div>' : `
+                  <div class="timeline">
+                    ${ev.map(e => `
+                      <div class="timeline-item ${e.author_type}">
+                        <div class="t-date">${Portal.fmtDateTime(e.created_at)}</div>
+                        <div class="t-title">${e.title}</div>
+                        ${e.details ? `<div class="t-details">${e.details}</div>` : ''}
+                        <div class="t-author">${e.event_type.replace(/_/g,' ')} · by ${e.author_type === 'client' ? 'Client' : 'Team'}</div>
+                      </div>
+                    `).join('')}
+                  </div>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+        document.getElementById('addEventForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const data = Object.fromEntries(new FormData(e.target).entries());
+          try {
+            await Portal.api('/employee/cases/' + id + '/event', { method: 'POST', body: data });
+            Portal.toast('Event added; client notified', 'success');
+            openCase(id);
+          } catch (err) { Portal.toast(err.message, 'error'); }
+        });
+      };
+
+      window.closeCaseModal = () => document.getElementById('caseModal').classList.remove('open');
+    })();
+  </script>
+</body>
+</html>
