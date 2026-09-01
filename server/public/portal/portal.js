@@ -171,10 +171,12 @@ function buildSidebar(activeKey, role = 'client') {
 function buildTopbar(title) {
   return `
     <header class="topbar">
-      <button class="notif-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="margin-right:8px"><i class="fas fa-bars"></i></button>
-      <h1>${title}</h1>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+        <h1>${title}</h1>
+      </div>
       <div class="topbar-actions">
-        <a href="/" class="btn btn-sm btn-ghost" title="Visit public site">
+        <a href="/" class="btn btn-ghost" title="Visit public site">
           <i class="fas fa-external-link-alt"></i> Public Site
         </a>
       </div>
@@ -193,6 +195,7 @@ function renderShell({ activeKey, title, role = 'client', body }) {
     </div>
   `;
   bindCommon();
+  setupSidebarAutoClose();
 }
 
 function bindCommon() {
@@ -201,6 +204,19 @@ function bindCommon() {
       const t = document.querySelector(a.getAttribute('href'));
       if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
     });
+  });
+  document.querySelectorAll('.sidebar-nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      const sb = document.getElementById('sidebar');
+      if (sb && sb.classList.contains('open')) sb.classList.remove('open');
+    });
+  });
+}
+
+function setupSidebarAutoClose() {
+  document.querySelector('.main')?.addEventListener('click', () => {
+    const sb = document.getElementById('sidebar');
+    if (sb && sb.classList.contains('open') && window.innerWidth <= 900) sb.classList.remove('open');
   });
 }
 

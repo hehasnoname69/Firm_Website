@@ -1414,39 +1414,6 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 .back-to-top.visible { opacity: 1; pointer-events: auto; }
 .back-to-top:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(201,168,76,0.5); }
 
-/* ─── Chat bubble ─── */
-.chat-bubble { position: fixed; bottom: 28px; right: 28px; z-index: 999; }
-.chat-tooltip {
-  position: absolute; bottom: calc(100% + 10px); right: 0;
-  background: #0d1b2a; color: #fff; font-size: 12px; font-weight: 600;
-  padding: 8px 14px; white-space: nowrap; pointer-events: none;
-  border: 1px solid rgba(201,168,76,0.3); border-radius: 4px;
-  opacity: 0; transform: translateY(6px); transition: opacity 0.3s, transform 0.3s;
-}
-.chat-tooltip::after {
-  content: ''; position: absolute; top: 100%; right: 16px;
-  border: 5px solid transparent; border-top-color: rgba(201,168,76,0.3);
-}
-.chat-bubble:hover .chat-tooltip { opacity: 1; transform: translateY(0); }
-.chat-btn {
-  width: 54px; height: 54px; background: #c9a84c; border: none; border-radius: 50%;
-  color: #fff; font-size: 22px; cursor: pointer; position: relative;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 20px rgba(201,168,76,0.5);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.chat-btn:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(201,168,76,0.6); }
-.chat-ping {
-  position: absolute; top: -2px; right: -2px; width: 14px; height: 14px;
-  background: #e74c3c; border-radius: 50%; border: 2px solid #fff;
-  animation: pingAnim 1.5s ease-in-out infinite;
-}
-@keyframes pingAnim {
-  0% { transform: scale(1); opacity: 1; }
-  70% { transform: scale(2); opacity: 0; }
-  100% { transform: scale(1); opacity: 0; }
-}
-
 /* ============================================================
    SCROLL REVEAL (applied via JS)
 ============================================================ */

@@ -412,14 +412,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ══════════════════════════════════════════════
-     16. CHAT BUBBLE
+     16. CHAT BUBBLE - removed (replaced with direct contact links)
   ══════════════════════════════════════════════ */
-  const chatBtn = document.getElementById('chatBtn');
-  if (chatBtn) {
-    chatBtn.addEventListener('click', () => {
-      window.location.href = '#contact-section';
-    });
-  }
 
   /* ══════════════════════════════════════════════
      17. NAVBAR HIDE/SHOW ON SCROLL DIRECTION
